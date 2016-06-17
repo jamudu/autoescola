@@ -24,6 +24,15 @@ public class Vehicle {
         matricula = marca = model = "";
     }
     
+    public Object clone()  {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException ex) {
+            //Logger.getLogger(Vehicle.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     public String getMatricula() {
         return matricula;
     }

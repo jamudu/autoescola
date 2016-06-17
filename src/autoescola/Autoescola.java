@@ -2,7 +2,9 @@
 
 package autoescola;
 
-import model.Alumne;
+import dao.AlumneJDBC;
+import dao.ProfessorJDBC;
+import dao.VehicleJDBC;
 import vista.Menu;
 
 /**
@@ -10,6 +12,10 @@ import vista.Menu;
  * @author usu21
  */
 public class Autoescola {
+    
+    public static AlumneJDBC alumneJDBC;
+    public static ProfessorJDBC professorJDBC;
+    public static VehicleJDBC vehicleJDBC;
 
     /**
      * @param args the command line arguments

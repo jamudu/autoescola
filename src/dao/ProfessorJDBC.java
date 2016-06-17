@@ -16,11 +16,11 @@ import model.Professor;
  *
  * @author usu21
  */
-public class ProfessorDAO {
+public class ProfessorJDBC {
 private Connection conexion;
 
     //funcio eliminar professor
-    public boolean bajaProfessor(Professor p) throws MyException{
+    public boolean bajaProfessor(Professor p){
         boolean ok=false;
         conectar();
         if (conexion != null){
@@ -33,8 +33,8 @@ private Connection conexion;
                 st.close();   
                 ok=true;
             } catch (SQLException ex) {
-                //Logger.getLogger(PrendaJDBC.class.getName()).log(Level.SEVERE, null, ex);
-                throw new MyException("Error al actualizar dades: "+ ex.getLocalizedMessage());
+                //Logger.getLogger(ProfessorJDBC.class.getName()).log(Level.SEVERE, null, ex);
+                //throw new MyException("Error al actualizar dades: "+ ex.getLocalizedMessage());
             }finally{
                 desconectar();
             }        
@@ -42,7 +42,34 @@ private Connection conexion;
         return ok;
     }
     
-    public LlistaProfessor totsProfessors() throws MyException{
+    //funcion contar professors
+    public int contarProfessor(){
+        int cont=0;
+        conectar();
+        if (conexion != null){
+            try {
+                String query = "select count(*) as total from professor";
+                Statement st=conexion.createStatement();
+                ResultSet rs=st.executeQuery(query);
+                //si ResultSet tiene algo (si tiene next)
+                
+                if (rs.next()){
+                    cont = rs.getInt(1);
+                }
+                rs.close();
+                st.close();                
+            } catch (SQLException ex) {
+                //Logger.getLogger(ProfessorJDBC.class.getName()).log(Level.SEVERE, null, ex);
+                //throw new MyException("Error al actualizar dades: "+ ex.getLocalizedMessage());
+            }finally{
+                desconectar();
+            }        
+        }
+        return cont;
+    }
+    
+    
+    public LlistaProfessor totsProfessors(){
         LlistaProfessor lp=new LlistaProfessor();
         conectar();
         if (conexion !=null){
@@ -61,7 +88,7 @@ private Connection conexion;
                 st.close();
             } catch (SQLException ex) {
                 //Logger.getLogger(ProfessorJDBC.class.getName()).log(Level.SEVERE, null, ex);
-                throw new MyException("Error al consultar dades: "+ ex.getLocalizedMessage());
+                //throw new MyException("Error al consultar dades: "+ ex.getLocalizedMessage());
             }finally{
                 desconectar();
             }
@@ -70,7 +97,7 @@ private Connection conexion;
     }
     
     //funcion que comprueba si un professor existe, no recogemos el resultado de la busqueda
-    public boolean existeProfessor(String codi) throws MyException{
+    public boolean existeProfessor(String codi){
         conectar();
         if (conexion !=null){
             try {
@@ -87,7 +114,8 @@ private Connection conexion;
                 return existe;
             } catch (SQLException ex) {
                 //Logger.getLogger(ProfessorJDBC.class.getName()).log(Level.SEVERE, null, ex);
-                throw new MyException("Error al consultar dades: "+ ex.getLocalizedMessage());                
+                //throw new MyException("Error al consultar dades: "+ ex.getLocalizedMessage());                
+                return false;
             }finally {
                 desconectar();
             }
@@ -96,8 +124,31 @@ private Connection conexion;
         }
     }
     
+    //funcio modificar alumne
+    public boolean modificarProfessor(Professor p){
+        boolean ok=false;
+        conectar();
+        if (conexion != null){
+            try {
+                String query = "UPDATE persona SET nom='"+ p.getNom()+ 
+                        "',  cognoms='"+p.getCognoms()+ "', dataNaixement='"+p.getDataNaixement()+
+                        "', ensenyament='"+p.getTipusEnsenyament()+ "' WHERE nif="+ p.getNif()+";";
+                Statement st=conexion.createStatement();
+                st.executeUpdate(query);
+                                
+                st.close();   
+                ok=true;
+            } catch (SQLException ex) {
+                //Logger.getLogger(ProfessorJDBC.class.getName()).log(Level.SEVERE, null, ex);
+            }finally{
+                desconectar();
+            }        
+        }
+        return true;
+    }
+    
     //funcion insertar professor
-    public boolean insertarProfessor(Professor p) throws MyException{
+    public boolean insertarProfessor(Professor p){
         conectar();
         if (conexion != null){
             try {
@@ -112,7 +163,8 @@ private Connection conexion;
                 return true;
             } catch (SQLException ex) {
                 //Logger.getLogger(ProfessorJDBC.class.getName()).log(Level.SEVERE, null, ex);
-                throw new MyException("Error al insertar: "+ ex.getLocalizedMessage());
+                //throw new MyException("Error al insertar: "+ ex.getLocalizedMessage());
+                return false;
             }finally{
                 desconectar();
             }
@@ -124,12 +176,12 @@ private Connection conexion;
     //funcion abrir conexion SQL
     private void conectar(){
         try {
-            String url = "jdbc:mysql://localhost:3306/videoclub";
+            String url = "jdbc:mysql://localhost:3306/autoescola";
             String user="root";
             String password = "jeveris";
             conexion = DriverManager.getConnection(url, user, password);
         } catch (SQLException ex) {
-            //Logger.getLogger(PeliculaJDBC.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(ProfessorJDBC.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Error al conectar" + ex.getMessage());
             conexion = null;
         }
@@ -140,7 +192,7 @@ private Connection conexion;
         try {
             conexion.close();
         } catch (SQLException ex) {
-            //Logger.getLogger(PeliculaJDBC.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(ProfessorJDBC.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Error al desconectar " + ex.getMessage());
         }
     }

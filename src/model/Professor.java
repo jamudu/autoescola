@@ -9,7 +9,7 @@ import java.beans.PropertyChangeSupport;
  *
  * @author usu21
  */
-public class Professor extends Persona{
+public class Professor extends Persona implements Cloneable{
     
     private String idPersona;
     private String tipusEnsenyament;
@@ -35,6 +35,15 @@ public class Professor extends Persona{
         tipusEnsenyament="";
     }
 
+    public Object clone()  {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException ex) {
+            //Logger.getLogger(Professor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     public int getCarnet() {
         return carnet;
     }

@@ -1,0 +1,206 @@
+
+package dao;
+
+import exception.MyException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import model.Alumne;
+import model.LlistaAlumne;
+
+/**
+ *
+ * @author usu21
+ */
+public class AlumneJDBC {
+    private Connection conexion;
+    
+    private void connectar() {
+        try {
+            String url = "jdbc:mysql://localhost:3306/autoescola";
+            String usr = "root";
+            String pass = "jeveris";
+            conexion = DriverManager.getConnection(url, usr, pass);
+        } catch (SQLException ex) {
+            //Logger.getLogger(AlumneJDBC.class.getName()).log(Level.SEVERE, null, ex);
+            conexion = null;
+        }
+    }
+    
+    private void desconnectar() {
+        try {
+            conexion.close();
+        } catch (SQLException ex) {
+            //Logger.getLogger(AlumneJDBC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public boolean inserirAlumne(Alumne a) {
+        connectar();
+        if (conexion != null) {
+            try {
+                String sentencia = "insert into persona values (?, ?, ?, ?)";
+                PreparedStatement ps = conexion.prepareStatement(sentencia);
+                ps.setString(1, a.getNif());
+                ps.setString(2, a.getNom());
+                ps.setString(3, a.getCognoms());
+                ps.setDate(4, new java.sql.Date(a.getDataNaixement().getTime()));                
+                ps.executeUpdate();
+                ps.close();
+                
+                sentencia = "insert into alumne values (?, ?)";
+                ps = conexion.prepareStatement(sentencia);
+                ps.setString(1, a.getNif());
+                ps.setInt(2, a.getNumIntentsExamen());
+                ps.executeUpdate();
+                ps.close();
+                
+                return true;
+            } catch (SQLException ex) {
+                //Logger.getLogger(AlumneJDBC.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            } finally {
+                desconnectar();
+            }
+        } else {
+            return false;
+        }
+    }
+    
+    public boolean existeixAlumne(String nif) {
+        connectar();
+        if (conexion != null) {
+            try {
+                String query = "select * from persona where nif = '" + nif + "'";
+                Statement st = conexion.createStatement();
+                ResultSet rs = st.executeQuery(query);
+                boolean existe = false;
+                if (rs.next()) {
+                    existe = true;
+                }
+                rs.close();
+                st.close();
+                return existe;
+            } catch (SQLException ex) {
+                //Logger.getLogger(AlumneJDBC.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            } finally {
+                desconnectar();
+            }
+        } else {
+            return false;
+        }
+    }
+    
+    //funcio modificar alumne
+    public boolean modificarAlumne(Alumne a){
+        boolean ok=false;
+        connectar();
+        if (conexion != null){
+            try {
+                String query = "UPDATE persona SET nom='"+ a.getNom()+ 
+                        "',  cognoms='"+a.getCognoms()+ "', dataNaixement='"+new java.sql.Date(a.getDataNaixement().getTime())+
+                        "', numIntents="+a.getNumIntentsExamen()+ " WHERE nif="+ a.getNif()+";";
+                Statement st=conexion.createStatement();
+                st.executeUpdate(query);                                
+                st.close();   
+                
+                query = "UPDATE alumne SET numIntents="+a.getNumIntentsExamen()+ " WHERE nif="+ a.getNif()+";";
+                st=conexion.createStatement();
+                st.executeUpdate(query);                                
+                st.close();
+                
+                ok=true;
+            } catch (SQLException ex) {
+                //Logger.getLogger(AlumneJDBC.class.getName()).log(Level.SEVERE, null, ex);
+            }finally{
+                desconnectar();
+            }        
+        }
+        return true;
+    }
+    
+    //funcio eliminar alumne
+    public boolean baixaAlumne(Alumne a){
+        boolean ok=false;
+        connectar();
+        if (conexion != null){
+            try {
+                String query = "delete from persona where nif='"+ a.getNif()+"';";
+                Statement st=conexion.createStatement();
+                st.executeUpdate(query);
+                //si ResultSet tiene algo (si tiene next)
+                
+                st.close();   
+                ok=true;
+            } catch (SQLException ex) {
+                //Logger.getLogger(AlumneJDBC.class.getName()).log(Level.SEVERE, null, ex);
+                //throw new MyException("Error al actualizar dades: "+ ex.getLocalizedMessage());
+            }finally{
+                desconnectar();
+            }        
+        }
+        return ok;
+    }
+    
+    //funcion contar alumnes
+    public int contarAlumne(){
+        int cont=0;
+        connectar();
+        if (conexion != null){
+            try {
+                String query = "select count(*) as total from alumne";
+                Statement st=conexion.createStatement();
+                ResultSet rs=st.executeQuery(query);
+                //si ResultSet tiene algo (si tiene next)
+                
+                if (rs.next()){
+                    cont = rs.getInt(1);
+                }
+                rs.close();
+                st.close();                
+            } catch (SQLException ex) {
+                //Logger.getLogger(AlumneJDBC.class.getName()).log(Level.SEVERE, null, ex);
+                //throw new MyException("Error al actualizar dades: "+ ex.getLocalizedMessage());
+            }finally{
+                desconnectar();
+            }        
+        }
+        return cont;
+    }
+    
+    public LlistaAlumne seleccionarAllAlumnes() {
+        LlistaAlumne llista = new LlistaAlumne();
+        connectar();
+        
+        if (conexion != null) {
+            try {
+                String query = "select * from persona join alumne where nif = alumne.fk_persona;";
+                Statement st = conexion.createStatement();
+                ResultSet rs = st.executeQuery(query);
+                
+                while (rs.next()) {
+                    Alumne alumne = new Alumne();
+                    alumne.setNif(rs.getString("nif"));
+                    alumne.setNom(rs.getString("nom"));
+                    alumne.setCognoms(rs.getString("cognoms"));
+                    alumne.setDataNaixement(rs.getDate("dataNaixement"));
+                    alumne.setNumIntentsExamen(rs.getInt("numIntents"));
+                    llista.altaAlumne(alumne);
+                }
+                
+                rs.close();
+                st.close();
+            } catch (SQLException ex) {
+                System.out.println("Error en la consulta " + ex.getMessage());
+            } finally {
+                desconnectar();
+            }
+        }
+        
+        return llista;
+    }
+}
