@@ -16,6 +16,13 @@ public class LlistaMatricula {
 
     public static final String PROP_LISTA = "lista";
 
+    public void altaMatricula(Matricula m) {
+        lista.add(m);
+    }
+    
+    public void bajaMatricula(Matricula m) {
+        lista.remove(m);
+    }
     public ObservableList<Matricula> getLista() {
         return lista;
     }
