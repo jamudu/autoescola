@@ -17,7 +17,7 @@ import model.LlistaAlumne;
 public class AlumneDAO {
     private Connection conexion;
     
-    private void conectar() {
+    private void connectar() {
         try {
             String url = "jdbc:mysql://localhost:3306/autoescola";
             String usr = "root";
@@ -29,7 +29,7 @@ public class AlumneDAO {
         }
     }
     
-    private void desconectar() {
+    private void desconnectar() {
         try {
             conexion.close();
         } catch (SQLException ex) {
@@ -38,7 +38,7 @@ public class AlumneDAO {
     }
     
     public boolean inserirAlumne(Alumne a) {
-        conectar();
+        connectar();
         if (conexion != null) {
             try {
                 String sentencia = "insert into pelicula values (?, ?, ?, ?, ?)";
@@ -55,7 +55,7 @@ public class AlumneDAO {
                 System.out.println("Error al insertar: " + ex.getMessage());
                 return false;
             } finally {
-                desconectar();
+                desconnectar();
             }
         } else {
             return false;
@@ -63,7 +63,7 @@ public class AlumneDAO {
     }
     
     public boolean existeixAlumne(String nif) {
-        conectar();
+        connectar();
         if (conexion != null) {
             try {
                 String query = "select * from persona where nif = '" + nif + "'";
@@ -80,16 +80,16 @@ public class AlumneDAO {
                 System.out.println("Error al consultar " + ex.getMessage());
                 return false;
             } finally {
-                desconectar();
+                desconnectar();
             }
         } else {
             return false;
         }
     }
     
-    public LlistaAlumne selectAllAlumnes() {
+    public LlistaAlumne seleccionarAllAlumnes() {
         LlistaAlumne llista = new LlistaAlumne();
-        conectar();
+        connectar();
         
         if (conexion != null) {
             try {
@@ -104,7 +104,7 @@ public class AlumneDAO {
                     alumne.setCognoms(rs.getString("cognoms"));
                     alumne.setDataNaixement(rs.getDate("dataNaixement"));
                     alumne.setNumIntentsExamen(rs.getInt("numIntents"));
-                    //llista.
+                    llista.altaAlumne(alumne);
                 }
                 
                 rs.close();
@@ -112,7 +112,7 @@ public class AlumneDAO {
             } catch (SQLException ex) {
                 System.out.println("Error en la consulta " + ex.getMessage());
             } finally {
-                desconectar();
+                desconnectar();
             }
         }
         
