@@ -22,14 +22,7 @@ public class Factura {
     private transient final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
     
     public Factura() {
-        this(0, null, 0, 0);
-    }
-    
-    public Factura(int codi, Date data, double total, int idMatricula) {
-        this.codi = codi;
-        this.data = data;
-        this.total = total;
-        this.idMatricula = idMatricula;
+        data = null;
     }
     
     public int getCodi() {

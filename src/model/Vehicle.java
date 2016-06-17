@@ -21,14 +21,7 @@ public class Vehicle {
     private transient final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
     
     public Vehicle() {
-        this("", "", "", 0);
-    }
-    
-    public Vehicle(String matricula, String marca, String model, int idCarnet) {
-        this.matricula = matricula;
-        this.marca = marca;
-        this.model = model;
-        this.idCarnet = idCarnet;
+        matricula = marca = model = "";
     }
     
     public String getMatricula() {
