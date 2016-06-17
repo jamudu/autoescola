@@ -20,6 +20,13 @@ public class LlistaPractica {
         lista=ObservableCollections.observableList(new ArrayList<Practica>());
     }
 
+    public void altaPractica(Practica p) {
+        lista.add(p);
+    }
+    
+    public void bajaPractica(Practica p) {
+        lista.remove(p);
+    }
     public static final String PROP_LISTA = "lista";
 
     public ObservableList<Practica> getLista() {

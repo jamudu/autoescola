@@ -5,8 +5,6 @@ package model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.observablecollections.ObservableList;
 
@@ -14,7 +12,7 @@ import org.jdesktop.observablecollections.ObservableList;
  *
  * @author usu21
  */
-public class LlistaAlumne implements Observable{
+public class LlistaAlumne{
 
     private ObservableList<Alumne> lista;
 
@@ -22,6 +20,13 @@ public class LlistaAlumne implements Observable{
         lista=ObservableCollections.observableList(new ArrayList<Alumne>());
     }
 
+    public void altaAlumne(Alumne a) {
+        lista.add(a);
+    }
+    
+    public void bajaAlumne(Alumne a) {
+        lista.remove(a);
+    }
     public static final String PROP_LISTA = "lista";
 
     public ObservableList<Alumne> getLista() {
@@ -44,14 +49,4 @@ public class LlistaAlumne implements Observable{
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
-    @Override
-    public void addListener(InvalidationListener il) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void removeListener(InvalidationListener il) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

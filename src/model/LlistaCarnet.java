@@ -20,6 +20,13 @@ public class LlistaCarnet {
         lista=ObservableCollections.observableList(new ArrayList<Carnet>());
     }
 
+    public void altaCarnet(Carnet c) {
+        lista.add(c);
+    }
+    
+    public void bajaCarnet(Carnet c) {
+        lista.remove(c);
+    }
     public static final String PROP_LISTA = "lista";
 
     public ObservableList<Carnet> getLista() {
