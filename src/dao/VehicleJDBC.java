@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import model.Carnet;
 import model.ListaVehicles;
 import model.Vehicle;
 
@@ -147,15 +148,16 @@ public class VehicleJDBC {
     }
     
     //funcion insertar vehicle
-    public boolean insertarVehicle(Vehicle v){
+    public boolean insertarVehicle(Vehicle v, Carnet c){
         conectar();
         if (conexion != null){
             try {
-                String insertar = "insert into vehicle values (?, ?, ?)";
-                PreparedStatement ps = (PreparedStatement) conexion.prepareStatement(insertar);
+                String sentencia = "insert into vehicle values (?, ?, ?, ?)";
+                PreparedStatement ps = conexion.prepareStatement(sentencia);
                 ps.setString(1, v.getMatricula());
                 ps.setString(2, v.getMarca());
                 ps.setString(3, v.getModel());
+                ps.setInt(4, c.getIdCarnet());  
                 
                 ps.executeUpdate();     //ejecuta la consulta
                 ps.close();             //liberamos recursos

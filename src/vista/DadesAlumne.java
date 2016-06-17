@@ -379,7 +379,7 @@ public class DadesAlumne extends javax.swing.JDialog {
     private void nifTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nifTxtFocusLost
         jLabel1.setText("");
         if (alumneJDBC.existeixAlumne(nifTxt.getText())) {
-            JOptionPane.showMessageDialog(this, "Ya existeix un alumne amb aquest nif", "ERROR: NIF duplicat", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ya existeix aquest nif", "ERROR: NIF duplicat", JOptionPane.ERROR_MESSAGE);
             nifTxt.requestFocusInWindow();
             nifTxt.selectAll();
             aceptarBtn.setEnabled(false);

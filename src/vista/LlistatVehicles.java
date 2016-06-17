@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import model.Carnet;
 import model.Vehicle;
 import model.ListaVehicles;
 
@@ -40,6 +41,16 @@ public class LlistatVehicles extends javax.swing.JDialog {
 
     public void setVehicleSelecc(Vehicle vehicleSelecc) {
         this.vehicleSelecc = vehicleSelecc;
+    }
+
+    private Carnet carnetSelecc;
+
+    public Carnet getCarnetSelecc() {
+        return carnetSelecc;
+    }
+
+    public void setCarnetSelecc(Carnet carnetSelecc) {
+        this.carnetSelecc = carnetSelecc;
     }
 
     /**

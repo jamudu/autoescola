@@ -69,20 +69,17 @@ public class DadesProfessor extends javax.swing.JDialog {
         nouProfessor = p;
         carnetJDBC = new CarnetJDBC();
         listaCombo=carnetJDBC.totsCarnets();
-//        Carnet retol = new Carnet();
-//        retol.setTipus("-- Selecciona carnet --");
-//        listaCombo.altaCarnet(retol);
-//        Collections.sort(listaCombo.getLista());
+        Carnet retol = new Carnet();
+        retol.setTipus("-- Selecciona carnet --");
+        listaCombo.altaCarnet(retol);
+        Collections.sort(listaCombo.getLista());        
         initComponents();
         formulario();
         if (modo.equals("modificar")) {
             nifTxt.setEditable(false);
-            nifTxt.setFocusable(false);
-            aceptarBtn.setEnabled(true);
-            jRadioButton1.setSelected(p.getTipusEnsenyament().equals("T"));
+            nifTxt.setFocusable(false);           
             this.setTitle("Modificar professor");
-        }else{
-            jRadioButton1.setSelected(true);
+        }else{            
             this.setTitle("Alta professor");
         }    
     }
@@ -96,7 +93,10 @@ public class DadesProfessor extends javax.swing.JDialog {
             nifTxt.setText("");
             nomTxt.setText("");
             cognomsTxt.setText("");
+            jComboBox1.setSelectedIndex(0);
+            jRadioButton1.setSelected(true);
             jXDatePicker1.setDate(new Date());
+            jRadioButton1.setSelected(nouProfessor.getTipusEnsenyament().equals("T"));
         }
     }
 
@@ -127,7 +127,7 @@ public class DadesProfessor extends javax.swing.JDialog {
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<String>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -259,13 +259,19 @@ public class DadesProfessor extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Carnet:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setMaximumRowCount(5);
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${listaCombo.lista}");
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jComboBox1);
         bindingGroup.addBinding(jComboBoxBinding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${carnetSelecc}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
+
+        jXDatePicker1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jXDatePicker1FocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -378,12 +384,13 @@ public class DadesProfessor extends javax.swing.JDialog {
 
     private void aceptarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarBtnActionPerformed
         if (comprobarCampos()) {
+            nouProfessor.setDataNaixement(jXDatePicker1.getDate());
             nouProfessor.setTipusEnsenyament("P");
             if (jRadioButton1.isSelected()){
                 nouProfessor.setTipusEnsenyament("T");
             }
             if (modo.equals("alta")) {
-                if (professorJDBC.insertarProfessor(nouProfessor)) {
+                if (professorJDBC.insertarProfessor(nouProfessor, carnetSelecc)) {
                     JOptionPane.showMessageDialog(this, "Professor donat d'alta");
                     nouProfessor = new Professor();
                     formulario();
@@ -405,6 +412,10 @@ public class DadesProfessor extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "No es poden deixar camps en blanc", "ERROR: Camps en blanc", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+        if (jComboBox1.getSelectedIndex()<1) {
+            JOptionPane.showMessageDialog(this, "Has de seleccionar un carnet", "ERROR: Carnet no seleccionat", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
         return true;
     }
     private void nomTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nomTxtFocusGained
@@ -414,7 +425,7 @@ public class DadesProfessor extends javax.swing.JDialog {
     private void nifTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nifTxtFocusLost
         jLabel1.setText("");
         if (professorJDBC.existeProfessor(nifTxt.getText())) {
-            JOptionPane.showMessageDialog(this, "Ya existeix un professor amb aquest nif", "ERROR: NIF duplicat", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ya existeix aquest nif", "ERROR: NIF duplicat", JOptionPane.ERROR_MESSAGE);
             nifTxt.requestFocusInWindow();
             nifTxt.selectAll();
             aceptarBtn.setEnabled(false);
@@ -450,6 +461,10 @@ public class DadesProfessor extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_nifTxtKeyTyped
+
+    private void jXDatePicker1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jXDatePicker1FocusLost
+        nouProfessor.setDataNaixement(jXDatePicker1.getDate());
+    }//GEN-LAST:event_jXDatePicker1FocusLost
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">   
     // Variables declaration - do not modify//GEN-BEGIN:variables

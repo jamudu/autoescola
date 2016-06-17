@@ -1,23 +1,48 @@
 //
-
 package vista;
 
+import static autoescola.Autoescola.carnetJDBC;
 import static autoescola.Autoescola.vehicleJDBC;
+import dao.CarnetJDBC;
 import dao.VehicleJDBC;
 import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.VK_BACK_SPACE;
+import java.util.Collections;
 import javax.swing.InputMap;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import model.Carnet;
+import model.LlistaCarnet;
 import model.Vehicle;
+import utilidades.EntrdaDatos;
 
 /**
  *
  * @author jaume
  */
 public class DadesVehicle extends javax.swing.JDialog {
-    
+
+    private Carnet carnetSelecc;
+
+    public Carnet getCarnetSelecc() {
+        return carnetSelecc;
+    }
+
+    public void setCarnetSelecc(Carnet carnetSelecc) {
+        this.carnetSelecc = carnetSelecc;
+    }
+
+    private LlistaCarnet listaCombo;
+
+    public LlistaCarnet getListaCombo() {
+        return listaCombo;
+    }
+
+    public void setListaCombo(LlistaCarnet listaCombo) {
+        this.listaCombo = listaCombo;
+    }
+
     private Vehicle nouVehicle;
 
     public Vehicle getNouVehicle() {
@@ -40,17 +65,23 @@ public class DadesVehicle extends javax.swing.JDialog {
         this.modo = modo;
         vehicleJDBC = new VehicleJDBC();
         nouVehicle = v;
+        carnetJDBC = new CarnetJDBC();
+        listaCombo = carnetJDBC.totsCarnets();
+        Carnet retol = new Carnet();
+        retol.setTipus("-- Selecciona carnet --");
+        listaCombo.altaCarnet(retol);
+        Collections.sort(listaCombo.getLista());
         initComponents();
         formulario();
         if (modo.equals("modificar")) {
             matriculaTxt.setEditable(false);
             matriculaTxt.setFocusable(false);
-            aceptarBtn.setEnabled(true);
             this.setTitle("Modificar vehicle");
-        }else{            
+        } else {
             this.setTitle("Alta vehicle");
-        }    
+        }
     }
+
     private void formulario() {
         aceptarBtn.setEnabled(false);
         marcaTxt.getMargin().left = 10;
@@ -134,12 +165,17 @@ public class DadesVehicle extends javax.swing.JDialog {
         codigoLbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         codigoLbl.setText("Matricula:");
 
+        jLabel1.setForeground(new java.awt.Color(255, 0, 0));
+
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${nouVehicle.model}"), modelTxt, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${nouVehicle.idCarnet}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${listaCombo.lista}");
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jComboBox1);
+        bindingGroup.addBinding(jComboBoxBinding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${carnetSelecc}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -284,16 +320,16 @@ public class DadesVehicle extends javax.swing.JDialog {
     private void matriculaTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_matriculaTxtKeyTyped
         jLabel1.setText(null);
         char c = evt.getKeyChar();
-        if (c >= '0' && c <= '9') {
+        if (c != VK_BACK_SPACE && c != KeyEvent.VK_DELETE && c != KeyEvent.VK_ENTER) {
             if (matriculaTxt.getText().length() > 6) {
-                getToolkit().beep();
                 evt.consume();
                 jLabel1.setText("maxim 7 caracters");
+            } else {
+                String lletraFinal = Character.toString(c).toUpperCase();
+                c = lletraFinal.charAt(0);
+                evt.consume();
+                matriculaTxt.setText(matriculaTxt.getText() + c);
             }
-        } else if (c != VK_BACK_SPACE && c != KeyEvent.VK_DELETE && c != KeyEvent.VK_ENTER) {
-            getToolkit().beep();
-            evt.consume();
-            jLabel1.setText("Nomes numeros");
         }
     }//GEN-LAST:event_matriculaTxtKeyTyped
 
@@ -322,7 +358,7 @@ public class DadesVehicle extends javax.swing.JDialog {
     private void aceptarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarBtnActionPerformed
         if (comprobarCampos()) {
             if (modo.equals("alta")) {
-                if (vehicleJDBC.insertarVehicle(nouVehicle)) {
+                if (vehicleJDBC.insertarVehicle(nouVehicle, carnetSelecc)) {
                     JOptionPane.showMessageDialog(this, "Vehicle donat d'alta");
                     nouVehicle = new Vehicle();
                     formulario();
@@ -342,6 +378,10 @@ public class DadesVehicle extends javax.swing.JDialog {
     private boolean comprobarCampos() {
         if (matriculaTxt.getText().isEmpty() || marcaTxt.getText().isEmpty() || modelTxt.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "No es poden deixar camps en blanc", "ERROR: Camps en blanc", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (jComboBox1.getSelectedIndex()<1) {
+            JOptionPane.showMessageDialog(this, "Has de seleccionar un carnet", "ERROR: Carnet no seleccionat", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;

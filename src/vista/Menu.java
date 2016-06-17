@@ -54,16 +54,16 @@ public class Menu extends javax.swing.JFrame {
         jMenu8 = new javax.swing.JMenu();
         jMenuItem16 = new javax.swing.JMenuItem();
         jMenuItem17 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem12 = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem11 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem12 = new javax.swing.JMenuItem();
+        jMenuItem18 = new javax.swing.JMenuItem();
+        jMenuItem19 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -168,14 +168,6 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
-        jMenu4.setText("Examen");
-        jMenu4.setPreferredSize(new java.awt.Dimension(75, 19));
-
-        jMenuItem12.setText("Actualitzar intents");
-        jMenu4.add(jMenuItem12);
-
-        jMenuBar1.add(jMenu4);
-
         jMenu9.setText("Llistats");
         jMenu9.setPreferredSize(new java.awt.Dimension(75, 19));
 
@@ -216,14 +208,19 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu9);
 
-        jMenu3.setText("Practiques");
-        jMenu3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jMenu3.setPreferredSize(new java.awt.Dimension(75, 19));
+        jMenu4.setText("Autoescola");
+        jMenu4.setPreferredSize(new java.awt.Dimension(75, 19));
 
-        jMenuItem11.setText("Gestio");
-        jMenu3.add(jMenuItem11);
+        jMenuItem12.setText("Actualitzar intents");
+        jMenu4.add(jMenuItem12);
 
-        jMenuBar1.add(jMenu3);
+        jMenuItem18.setText("Practiques");
+        jMenu4.add(jMenuItem18);
+
+        jMenuItem19.setText("Facturacio");
+        jMenu4.add(jMenuItem19);
+
+        jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
 
@@ -316,7 +313,6 @@ public class Menu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
@@ -326,13 +322,14 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
+    private javax.swing.JMenuItem jMenuItem18;
+    private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
