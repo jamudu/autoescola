@@ -30,6 +30,8 @@ public class Professor extends Persona{
     }
 
     public Professor() {
+        super();
+        idPersona="";
         tipusEnsenyament="";
     }
 
