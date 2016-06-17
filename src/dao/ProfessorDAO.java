@@ -2,6 +2,7 @@
 
 package dao;
 
+import exception.MyException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,7 +20,7 @@ public class ProfessorDAO {
 private Connection conexion;
 
     //funcio eliminar professor
-    public boolean bajaProfessor(Professor p){
+    public boolean bajaProfessor(Professor p) throws MyException{
         boolean ok=false;
         conectar();
         if (conexion != null){
@@ -33,6 +34,7 @@ private Connection conexion;
                 ok=true;
             } catch (SQLException ex) {
                 //Logger.getLogger(PrendaJDBC.class.getName()).log(Level.SEVERE, null, ex);
+                throw new MyException("Error al actualizar dades: "+ ex.getLocalizedMessage());
             }finally{
                 desconectar();
             }        
@@ -40,7 +42,7 @@ private Connection conexion;
         return ok;
     }
     
-    public LlistaProfessor totsProfessors(){
+    public LlistaProfessor totsProfessors() throws MyException{
         LlistaProfessor lp=new LlistaProfessor();
         conectar();
         if (conexion !=null){
@@ -59,7 +61,7 @@ private Connection conexion;
                 st.close();
             } catch (SQLException ex) {
                 //Logger.getLogger(ProfessorJDBC.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("Error en la consulta "+ex.getMessage());
+                throw new MyException("Error al consultar dades: "+ ex.getLocalizedMessage());
             }finally{
                 desconectar();
             }
@@ -68,7 +70,7 @@ private Connection conexion;
     }
     
     //funcion que comprueba si un professor existe, no recogemos el resultado de la busqueda
-    public boolean existeProfessor(String codi){
+    public boolean existeProfessor(String codi) throws MyException{
         conectar();
         if (conexion !=null){
             try {
@@ -85,8 +87,7 @@ private Connection conexion;
                 return existe;
             } catch (SQLException ex) {
                 //Logger.getLogger(ProfessorJDBC.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("Error al consultar"+ex.getMessage());
-                return false;
+                throw new MyException("Error al consultar dades: "+ ex.getLocalizedMessage());                
             }finally {
                 desconectar();
             }
@@ -96,7 +97,7 @@ private Connection conexion;
     }
     
     //funcion insertar professor
-    public boolean insertarProfessor(Professor p){
+    public boolean insertarProfessor(Professor p) throws MyException{
         conectar();
         if (conexion != null){
             try {
@@ -111,8 +112,7 @@ private Connection conexion;
                 return true;
             } catch (SQLException ex) {
                 //Logger.getLogger(ProfessorJDBC.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("Error al insertar: " +ex.getMessage());
-                return false;
+                throw new MyException("Error al insertar: "+ ex.getLocalizedMessage());
             }finally{
                 desconectar();
             }
