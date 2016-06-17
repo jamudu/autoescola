@@ -2,6 +2,7 @@
 
 package autoescola;
 
+import model.Alumne;
 import vista.Menu;
 
 /**
