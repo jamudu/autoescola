@@ -3,6 +3,7 @@
 package autoescola;
 
 import dao.AlumneJDBC;
+import dao.CarnetJDBC;
 import dao.ProfessorJDBC;
 import dao.VehicleJDBC;
 import vista.Menu;
@@ -16,6 +17,7 @@ public class Autoescola {
     public static AlumneJDBC alumneJDBC;
     public static ProfessorJDBC professorJDBC;
     public static VehicleJDBC vehicleJDBC;
+    public static CarnetJDBC carnetJDBC;
 
     /**
      * @param args the command line arguments

@@ -67,9 +67,9 @@ public class LlistatVehicles extends javax.swing.JDialog {
         if (modo.equals("L")) {
             jButton2.setVisible(false);
             jButton3.setVisible(false);
-            this.setTitle("Llistat professors");
+            this.setTitle("Llistat vehicles");
         }else{
-            this.setTitle("Gestio professors");
+            this.setTitle("Gestio vehicless");
         }
         jLabel1.setText("Total:  " + vehicleJDBC.contarVehicles());
     }
@@ -93,6 +93,7 @@ public class LlistatVehicles extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/editar1.jpg"))); // NOI18N
         jButton3.setToolTipText("modificar prenda seleccionada");
         jButton3.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -114,21 +115,26 @@ public class LlistatVehicles extends javax.swing.JDialog {
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${matricula}"));
         columnBinding.setColumnName("Matricula");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${marca}"));
         columnBinding.setColumnName("Marca");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${model}"));
         columnBinding.setColumnName("Model");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idCarnet}"));
         columnBinding.setColumnName("Id Carnet");
         columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${vehicleSelecc}"), jTable1, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
         bindingGroup.addBinding(binding);
 
         jScrollPane1.setViewportView(jTable1);
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/salir60x60.jpg"))); // NOI18N
         jButton1.setToolTipText("salir");
         jButton1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -144,6 +150,7 @@ public class LlistatVehicles extends javax.swing.JDialog {
         jLabel1.setText("jLabel1");
 
         jButton2.setBackground(new java.awt.Color(204, 204, 204));
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/eliminar60x60.jpg"))); // NOI18N
         jButton2.setToolTipText("Eliminar prenda seleccionada");
         jButton2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton2.setOpaque(false);

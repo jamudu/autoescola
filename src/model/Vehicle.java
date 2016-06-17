@@ -8,7 +8,7 @@ import java.beans.PropertyChangeSupport;
  *
  * @author usu21
  */
-public class Vehicle {    
+public class Vehicle implements Cloneable{    
     private String matricula;
     private String marca;
     private String model;

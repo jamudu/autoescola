@@ -2,7 +2,11 @@
 
 package vista;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import model.Alumne;
+import model.Carnet;
+import model.ImagenFondo;
 import model.Professor;
 import model.Vehicle;
 
@@ -16,6 +20,11 @@ public class Menu extends javax.swing.JFrame {
      * Creates new form Menu
      */
     public Menu() {
+        Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagenes/autoescola3.jpeg"));
+        setIconImage(icon);
+        ImagenFondo image = new ImagenFondo();
+        image.setImage("/imagenes/autoescuela1.png");
+        setContentPane(image);
         initComponents();
     }
 
@@ -45,8 +54,6 @@ public class Menu extends javax.swing.JFrame {
         jMenu8 = new javax.swing.JMenu();
         jMenuItem16 = new javax.swing.JMenuItem();
         jMenuItem17 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem11 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
@@ -55,14 +62,18 @@ public class Menu extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem11 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
         jMenu2.setText("Gestio");
         jMenu2.setPreferredSize(new java.awt.Dimension(75, 19));
 
         jMenu1.setText("Alumne");
 
+        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem6.setText("Alta");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -83,6 +94,7 @@ public class Menu extends javax.swing.JFrame {
 
         jMenu5.setText("Professor");
 
+        jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem8.setText("Alta");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,6 +115,7 @@ public class Menu extends javax.swing.JFrame {
 
         jMenu6.setText("Vehicle");
 
+        jMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem10.setText("Alta");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,6 +136,7 @@ public class Menu extends javax.swing.JFrame {
 
         jMenu7.setText("Matricula");
 
+        jMenuItem14.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem14.setText("Alta");
         jMenu7.add(jMenuItem14);
 
@@ -133,24 +147,26 @@ public class Menu extends javax.swing.JFrame {
 
         jMenu8.setText("Carnet");
 
+        jMenuItem16.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem16.setText("Alta");
+        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem16ActionPerformed(evt);
+            }
+        });
         jMenu8.add(jMenuItem16);
 
         jMenuItem17.setText("Baixa / Modificacio");
+        jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem17ActionPerformed(evt);
+            }
+        });
         jMenu8.add(jMenuItem17);
 
         jMenu2.add(jMenu8);
 
         jMenuBar1.add(jMenu2);
-
-        jMenu3.setText("Practiques");
-        jMenu3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jMenu3.setPreferredSize(new java.awt.Dimension(75, 19));
-
-        jMenuItem11.setText("Gestio");
-        jMenu3.add(jMenuItem11);
-
-        jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Examen");
         jMenu4.setPreferredSize(new java.awt.Dimension(75, 19));
@@ -191,9 +207,23 @@ public class Menu extends javax.swing.JFrame {
         jMenu9.add(jMenuItem4);
 
         jMenuItem5.setText("Carnets");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu9.add(jMenuItem5);
 
         jMenuBar1.add(jMenu9);
+
+        jMenu3.setText("Practiques");
+        jMenu3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jMenu3.setPreferredSize(new java.awt.Dimension(75, 19));
+
+        jMenuItem11.setText("Gestio");
+        jMenu3.add(jMenuItem11);
+
+        jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
 
@@ -264,6 +294,24 @@ public class Menu extends javax.swing.JFrame {
         lv.setLocationRelativeTo(this);
         lv.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
+        DadesCarnet dc = new DadesCarnet(this, true, new Carnet(), "alta");
+        dc.setLocationRelativeTo(this);
+        dc.setVisible(true);
+    }//GEN-LAST:event_jMenuItem16ActionPerformed
+
+    private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
+        LlistatCarnets lc = new LlistatCarnets(this, true, "M");
+        lc.setLocationRelativeTo(this);
+        lc.setVisible(true);
+    }//GEN-LAST:event_jMenuItem17ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        LlistatCarnets lc = new LlistatCarnets(this, true, "L");
+        lc.setLocationRelativeTo(this);
+        lc.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
     // <editor-fold defaultstate="collapsed" desc="Generated Code">  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;

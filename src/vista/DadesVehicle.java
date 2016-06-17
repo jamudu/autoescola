@@ -54,7 +54,7 @@ public class DadesVehicle extends javax.swing.JDialog {
     private void formulario() {
         aceptarBtn.setEnabled(false);
         marcaTxt.getMargin().left = 10;
-        modelTxt.getMargin().right = 10;
+        modelTxt.getMargin().left = 10;
         matriculaTxt.setHorizontalAlignment(JTextField.CENTER);
 
         if (!modo.equals("modificar")) {
@@ -90,6 +90,7 @@ public class DadesVehicle extends javax.swing.JDialog {
         aceptarBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jPanel1.setOpaque(false);

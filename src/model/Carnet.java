@@ -9,7 +9,7 @@ import java.beans.PropertyChangeSupport;
  *
  * @author usu21
  */
-public class Carnet {
+public class Carnet implements Cloneable{
     
     private int idCarnet;
     private String tipus;
@@ -30,6 +30,15 @@ public class Carnet {
         return preuHora;
     }
 
+    public Object clone()  {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException ex) {
+            //Logger.getLogger(Vehicle.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     public void setPreuHora(double preuHora) {
         double oldPreuHora = this.preuHora;
         this.preuHora = preuHora;
