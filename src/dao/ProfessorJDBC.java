@@ -76,25 +76,20 @@ public class ProfessorJDBC {
         if (conexion != null) {
             try {
                 conexion.setAutoCommit(false);
-                String query = "select * from persona join professor where nif = professor.fk_persona;";
+                String query = "select * from professor INNER join persona on persona.nif = professor.fk_persona "
+                        + "INNER join carnet on carnet.id = professor.fk_carnet";
                 Statement st = conexion.createStatement();
                 ResultSet rs = st.executeQuery(query);
-
-                Professor pr = new Professor();
+                
                 while (rs.next()) {
+                    Professor pr = new Professor();
                     pr.setNif(rs.getString("nif"));
                     pr.setNom(rs.getString("nom"));
                     pr.setCognoms(rs.getString("cognoms"));
                     pr.setDataNaixement(rs.getDate("dataNaixement"));
                     pr.setTipusEnsenyament(rs.getString("ensenyament"));
-
-                    query = "select * from carnet join professor where id = professor.fk_carnet";
-                    Statement st2 = conexion.createStatement();
-                    ResultSet rs2 = st2.executeQuery(query);
-                    
-                        pr.setCarnet(rs2.getInt("tipus"));
-                        lp.altaProfessor(pr);
-                    
+                    pr.setCarnet(rs.getInt("id"));
+                    lp.altaProfessor(pr);
                 }
 
                 rs.close();

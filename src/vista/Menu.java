@@ -138,6 +138,11 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuItem14.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.ALT_MASK));
         jMenuItem14.setText("Alta");
+        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem14ActionPerformed(evt);
+            }
+        });
         jMenu7.add(jMenuItem14);
 
         jMenuItem15.setText("Baixa / Modificacio");
@@ -309,6 +314,12 @@ public class Menu extends javax.swing.JFrame {
         lc.setLocationRelativeTo(this);
         lc.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
+        DadesMatricula dm = new DadesMatricula(this, true, "alta");
+        dm.setLocationRelativeTo(this);
+        dm.setVisible(true);
+    }//GEN-LAST:event_jMenuItem14ActionPerformed
     // <editor-fold defaultstate="collapsed" desc="Generated Code">  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;

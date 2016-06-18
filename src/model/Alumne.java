@@ -8,7 +8,7 @@ import java.beans.PropertyChangeSupport;
  *
  * @author usu21
  */
-public class Alumne extends Persona implements Cloneable{    
+public class Alumne extends Persona implements Cloneable, Comparable{    
     private int numIntentsExamen;
     
     public static final String PROP_NUMINTENTSEXAMEN = "numIntentsExamen";
@@ -18,6 +18,12 @@ public class Alumne extends Persona implements Cloneable{
         super();
         numIntentsExamen = 0;
     }
+
+    @Override
+    public String toString() {
+        return this.getCognoms();
+    }
+    
     
     public Object clone()  {
         try {
@@ -46,5 +52,11 @@ public class Alumne extends Persona implements Cloneable{
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         super.removePropertyChangeListener(listener);
         propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Alumne other = (Alumne)o;
+        return this.getCognoms().compareTo(other.getCognoms());
     }
 }

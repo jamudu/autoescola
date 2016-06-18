@@ -34,6 +34,7 @@ public class CarnetJDBC {
             } catch (SQLException ex) {
                 //Logger.getLogger(CarnetJDBC.class.getName()).log(Level.SEVERE, null, ex);
                 //throw new MyException("Error al actualizar dades: "+ ex.getLocalizedMessage());
+                System.out.println(ex.getMessage());
             }finally{
                 desconectar();
             }        
