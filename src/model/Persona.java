@@ -24,7 +24,6 @@ abstract class Persona {
 
     public Persona() {
         nif = nom = cognoms = "";
-        dataNaixement = null;
     }
     
     public String getNif() {

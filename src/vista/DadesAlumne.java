@@ -64,8 +64,10 @@ public class DadesAlumne extends javax.swing.JDialog {
             nifTxt.setText("");
             nomTxt.setText("");
             cognomsTxt.setText("");
-            jXDatePicker1.setDate(new Date());
+//            jXDatePicker1.setDate(new Date());
             jSpinner1.setValue(0);
+        } else {
+            jXDatePicker1.setDate(nouAlumne.getDataNaixement());
         }
     }
 
@@ -305,6 +307,7 @@ public class DadesAlumne extends javax.swing.JDialog {
 
     private void aceptarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarBtnActionPerformed
         if (comprobarCampos()) {
+            nouAlumne.setDataNaixement(jXDatePicker1.getDate());
             if (modo.equals("alta")) {
                 if (alumneJDBC.inserirAlumne(nouAlumne)) {
                     JOptionPane.showMessageDialog(this, "Alumne donat d'alta");
