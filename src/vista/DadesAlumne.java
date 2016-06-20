@@ -64,7 +64,7 @@ public class DadesAlumne extends javax.swing.JDialog {
             nifTxt.setText("");
             nomTxt.setText("");
             cognomsTxt.setText("");
-//            jXDatePicker1.setDate(new Date());
+            jXDatePicker1.setDate(new Date());
             jSpinner1.setValue(0);
         } else {
             jXDatePicker1.setDate(nouAlumne.getDataNaixement());
@@ -149,6 +149,23 @@ public class DadesAlumne extends javax.swing.JDialog {
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${nouAlumne.cognoms}"), cognomsTxt, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+
+        jXDatePicker1.setEditable(false);
+        jXDatePicker1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jXDatePicker1FocusLost(evt);
+            }
+        });
+        jXDatePicker1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXDatePicker1ActionPerformed(evt);
+            }
+        });
+        jXDatePicker1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jXDatePicker1KeyTyped(evt);
+            }
+        });
 
         jSpinner1.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
 
@@ -376,6 +393,18 @@ public class DadesAlumne extends javax.swing.JDialog {
     private void nomTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nomTxtFocusGained
         nomTxt.selectAll();
     }//GEN-LAST:event_nomTxtFocusGained
+
+    private void jXDatePicker1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jXDatePicker1FocusLost
+        nouAlumne.setDataNaixement(jXDatePicker1.getDate());
+    }//GEN-LAST:event_jXDatePicker1FocusLost
+
+    private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
+        nouAlumne.setDataNaixement(jXDatePicker1.getDate());
+    }//GEN-LAST:event_jXDatePicker1ActionPerformed
+
+    private void jXDatePicker1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jXDatePicker1KeyTyped
+        nouAlumne.setDataNaixement(jXDatePicker1.getDate());
+    }//GEN-LAST:event_jXDatePicker1KeyTyped
     // <editor-fold defaultstate="collapsed" desc="Generated Code"> 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aceptarBtn;

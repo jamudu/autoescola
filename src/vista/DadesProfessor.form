@@ -344,6 +344,10 @@
               </StringArray>
             </Property>
           </Properties>
+          <BindingProperties>
+            <BindingProperty name="elements" source="Form" sourcePath="${listaCombo.lista}" target="jComboBox1" targetPath="elements" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="selectedItem" source="Form" sourcePath="${carnetSelecc}" target="jComboBox1" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+          </BindingProperties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>

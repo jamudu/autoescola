@@ -9,7 +9,7 @@ import java.beans.PropertyChangeSupport;
  *
  * @author usu21
  */
-public class Carnet implements Cloneable{
+public class Carnet implements Cloneable, Comparable{
     
     private int idCarnet;
     private String tipus;
@@ -28,6 +28,11 @@ public class Carnet implements Cloneable{
 
     public double getPreuHora() {
         return preuHora;
+    }
+
+    @Override
+    public String toString() {
+        return tipus;
     }
 
     public Object clone()  {
@@ -83,6 +88,12 @@ public class Carnet implements Cloneable{
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Carnet other = (Carnet)o;
+        return tipus.compareTo(other.getTipus());
     }
 
 }

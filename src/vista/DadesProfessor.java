@@ -2,15 +2,20 @@
 
 package vista;
 
+import static autoescola.Autoescola.carnetJDBC;
 import static autoescola.Autoescola.professorJDBC;
+import dao.CarnetJDBC;
 import dao.ProfessorJDBC;
 import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.VK_BACK_SPACE;
+import java.util.Collections;
 import java.util.Date;
 import javax.swing.InputMap;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import model.Carnet;
+import model.LlistaCarnet;
 import model.Professor;
 import utilidades.EntrdaDatos;
 
@@ -30,6 +35,26 @@ public class DadesProfessor extends javax.swing.JDialog {
         this.nouProfessor = nouProfessor;
     }
 
+    private LlistaCarnet listaCombo;
+
+    public LlistaCarnet getListaCombo() {
+        return listaCombo;
+    }
+
+    public void setListaCombo(LlistaCarnet listaCombo) {
+        this.listaCombo = listaCombo;
+    }
+
+    private Carnet carnetSelecc;
+
+    public Carnet getCarnetSelecc() {
+        return carnetSelecc;
+    }
+
+    public void setCarnetSelecc(Carnet carnetSelecc) {
+        this.carnetSelecc = carnetSelecc;
+    }
+
     private String modo = "";
     public boolean cancelar;
     
@@ -42,6 +67,12 @@ public class DadesProfessor extends javax.swing.JDialog {
         this.modo = modo;
         professorJDBC = new ProfessorJDBC();
         nouProfessor = p;
+        carnetJDBC = new CarnetJDBC();
+        listaCombo=carnetJDBC.totsCarnets();
+//        Carnet retol = new Carnet();
+//        retol.setTipus("-- Selecciona carnet --");
+//        listaCombo.altaCarnet(retol);
+//        Collections.sort(listaCombo.getLista());
         initComponents();
         formulario();
         if (modo.equals("modificar")) {
@@ -229,6 +260,12 @@ public class DadesProfessor extends javax.swing.JDialog {
         jLabel2.setText("Carnet:");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${listaCombo.lista}");
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jComboBox1);
+        bindingGroup.addBinding(jComboBoxBinding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${carnetSelecc}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

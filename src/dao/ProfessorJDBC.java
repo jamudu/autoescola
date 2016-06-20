@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 import model.LlistaProfessor;
 import model.Professor;
 
@@ -150,25 +151,45 @@ private Connection conexion;
     //funcion insertar professor
     public boolean insertarProfessor(Professor p){
         conectar();
-        if (conexion != null){
+        if (conexion != null) {
             try {
-                String insertar = "insert into professor values (?, ?, ?)";
-                PreparedStatement ps = (PreparedStatement) conexion.prepareStatement(insertar);
-                ps.setString(1, p.getIdPersona());
-                ps.setString(2, p.getTipusEnsenyament());
-                ps.setInt(3, p.getCarnet());
+                conexion.setAutoCommit(false);
+                String sentencia = "insert into persona values (?, ?, ?, ?)";
+                PreparedStatement ps = conexion.prepareStatement(sentencia);
+                ps.setString(1, p.getNif());
+                ps.setString(2, p.getNom());
+                ps.setString(3, p.getCognoms());
+//                ps.setDate(4, new java.sql.Date(a.getDataNaixement().getTime()));                
+                ps.executeUpdate();                
+                sentencia = "insert into professor values (?, ?)";                
+                ps = conexion.prepareStatement(sentencia);
+                ps.setString(1, p.getNif());
+//                ps.setInt(2, p.getNumIntentsExamen());
+                ps.executeUpdate();
+                conexion.commit();
+                ps.close();
                 
-                ps.executeUpdate();     //ejecuta la consulta
-                ps.close();             //liberamos recursos
                 return true;
             } catch (SQLException ex) {
-                //Logger.getLogger(ProfessorJDBC.class.getName()).log(Level.SEVERE, null, ex);
-                //throw new MyException("Error al insertar: "+ ex.getLocalizedMessage());
+                JOptionPane.showMessageDialog(null, "Error en inserir l'alumne.",
+                        "Error!!!", JOptionPane.ERROR_MESSAGE);
+                try {
+                    conexion.rollback();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error en desfer la transacció.",
+                        "Error!!!", JOptionPane.ERROR_MESSAGE);
+                }
                 return false;
-            }finally{
+            } finally {
+                try {
+                    conexion.setAutoCommit(true);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Error en desconnectar.",
+                        "Error!!!", JOptionPane.ERROR_MESSAGE);
+                }
                 desconectar();
             }
-        }else{
+        } else {
             return false;
         }
     }

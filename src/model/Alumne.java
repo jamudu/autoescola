@@ -39,10 +39,12 @@ public class Alumne extends Persona implements Cloneable{
     }    
     
     public void addPropertyChangeListener(PropertyChangeListener listener) {
+        super.addPropertyChangeListener(listener);
         propertyChangeSupport.addPropertyChangeListener(listener);
     }
     
     public void removePropertyChangeListener(PropertyChangeListener listener) {
+        super.removePropertyChangeListener(listener);
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
 }

@@ -54,6 +54,7 @@ public class DadesCarnet extends javax.swing.JDialog {
         aceptarBtn.setEnabled(false);
         carnetTxt.getMargin().left = 10;
         descripcioTxt.getMargin().left = 10;
+        preuTxt.setHorizontalAlignment(JTextField.RIGHT);
         preuTxt.getMargin().right = 10;
         codiTxt.setHorizontalAlignment(JTextField.CENTER);
 
@@ -160,10 +161,16 @@ public class DadesCarnet extends javax.swing.JDialog {
         descripcionLbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         descripcionLbl.setText("Descripcio:");
 
-        carnetTxt.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        carnetTxt.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${nouCarnet.tipus}"), carnetTxt, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+
+        carnetTxt.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                carnetTxtFocusLost(evt);
+            }
+        });
 
         codigoLbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         codigoLbl.setText("Carnet:");
@@ -173,11 +180,22 @@ public class DadesCarnet extends javax.swing.JDialog {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${nouCarnet.preuHora}"), preuTxt, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        preuTxt.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                preuTxtFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                preuTxtFocusLost(evt);
+            }
+        });
+
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("€ / hora");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel3.setText("Codi:");
+
+        codiTxt.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${nouCarnet.idCarnet}"), codiTxt, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
@@ -317,7 +335,7 @@ public class DadesCarnet extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "No es poden deixar camps en blanc", "ERROR: Camps en blanc", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        if (nouCarnet.getPreuHora()<0){
+        if (Double.parseDouble(preuTxt.getText())<0){
             JOptionPane.showMessageDialog(this, "El preu ha de ser positiu", "ERROR: Preu incorrecte", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -355,6 +373,24 @@ public class DadesCarnet extends javax.swing.JDialog {
             aceptarBtn.setEnabled(false);
         }
     }//GEN-LAST:event_codiTxtFocusLost
+
+    private void preuTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_preuTxtFocusGained
+        preuTxt.selectAll();
+    }//GEN-LAST:event_preuTxtFocusGained
+
+    private void preuTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_preuTxtFocusLost
+        try{
+            double preu=Double.parseDouble(preuTxt.getText());
+        }catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "El preu es incorrecte", "ERROR: Preu incorrecte", JOptionPane.ERROR_MESSAGE);
+            preuTxt.requestFocusInWindow();
+            preuTxt.selectAll();
+        }
+    }//GEN-LAST:event_preuTxtFocusLost
+
+    private void carnetTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_carnetTxtFocusLost
+        nouCarnet.setTipus(nouCarnet.getTipus().toUpperCase());
+    }//GEN-LAST:event_carnetTxtFocusLost
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aceptarBtn;

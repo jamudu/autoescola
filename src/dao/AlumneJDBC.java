@@ -8,9 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import javax.swing.JOptionPane;
 import model.Alumne;
 import model.LlistaAlumne;
@@ -118,22 +115,39 @@ public class AlumneJDBC {
         connectar();
         if (conexion != null){
             try {
+                conexion.setAutoCommit(false);
                 String query = "UPDATE persona SET nom='"+ a.getNom()+ 
                         "',  cognoms='"+a.getCognoms()+ "', dataNaixement='"+new java.sql.Date(a.getDataNaixement().getTime())+
-                        "', numIntents="+a.getNumIntentsExamen()+ " WHERE nif="+ a.getNif()+";";
+                        "' WHERE nif='"+ a.getNif()+"';";
                 Statement st=conexion.createStatement();
                 st.executeUpdate(query);                                
-                st.close();   
-                
-                query = "UPDATE alumne SET numIntents="+a.getNumIntentsExamen()+ " WHERE nif="+ a.getNif()+";";
+               
+                query = "UPDATE alumne SET numIntents="+a.getNumIntentsExamen()+ " WHERE fk_persona='"+ a.getNif()+"';";
                 st=conexion.createStatement();
-                st.executeUpdate(query);                                
+                st.executeUpdate(query);                    
+                                               
                 st.close();
                 
                 ok=true;
             } catch (SQLException ex) {
                 //Logger.getLogger(AlumneJDBC.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Error en moddificar l'alumne.",
+                        "Error!!!", JOptionPane.ERROR_MESSAGE);
+                System.out.println(ex.getMessage());
+                try {
+                    conexion.rollback();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error en desfer la transacció.",
+                        "Error!!!", JOptionPane.ERROR_MESSAGE);
+                }
+                return false;
             }finally{
+                try {
+                    conexion.setAutoCommit(true);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Error en desconnectar.",
+                        "Error!!!", JOptionPane.ERROR_MESSAGE);
+                }
                 desconnectar();
             }        
         }
@@ -146,17 +160,39 @@ public class AlumneJDBC {
         connectar();
         if (conexion != null){
             try {
-                String query = "delete from persona where nif='"+ a.getNif()+"';";
+                conexion.setAutoCommit(false);
+                String query = "delete from alumne where fk_persona='"+ a.getNif()+"';";
                 Statement st=conexion.createStatement();
                 st.executeUpdate(query);
+                
+                query = "delete from persona where nif='"+ a.getNif()+"';";
+                st=conexion.createStatement();
+                st.executeUpdate(query);
+                
                 //si ResultSet tiene algo (si tiene next)
                 
                 st.close();   
                 ok=true;
             } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
                 //Logger.getLogger(AlumneJDBC.class.getName()).log(Level.SEVERE, null, ex);
                 //throw new MyException("Error al actualizar dades: "+ ex.getLocalizedMessage());
+                JOptionPane.showMessageDialog(null, "Error en donar de l'alumne.",
+                        "Error!!!", JOptionPane.ERROR_MESSAGE);
+                try {
+                    conexion.rollback();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error en desfer la transacció.",
+                        "Error!!!", JOptionPane.ERROR_MESSAGE);
+                }
+                return false;
             }finally{
+                try {
+                    conexion.setAutoCommit(true);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Error en desconnectar.",
+                        "Error!!!", JOptionPane.ERROR_MESSAGE);
+                }
                 desconnectar();
             }        
         }

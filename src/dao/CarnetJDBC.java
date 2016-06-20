@@ -73,12 +73,12 @@ public class CarnetJDBC {
         conectar();
         if (conexion !=null){
             try {
-                String query ="select * from carnet";
+                String query ="select * from carnet order by tipus";
                 Statement st=conexion.createStatement();
                 ResultSet rs=st.executeQuery(query);
                 while (rs.next()){
                     Carnet ca=new Carnet();
-////                    ca.setIdCarnet(rs.getString("id"));
+                    ca.setIdCarnet(rs.getInt("id"));
                     ca.setTipus(rs.getString("tipus"));  // =  rs.getString(1)
                     ca.setDescripcio(rs.getString("descripcio"));
                     ca.setPreuHora(rs.getDouble("preuHora"));
@@ -101,7 +101,7 @@ public class CarnetJDBC {
         conectar();
         if (conexion !=null){
             try {
-                String query = "select *from carnet where id='" + codi + "'";
+                String query = "select *from carnet where id=" + codi +";";
                 Statement st=conexion.createStatement();
                 ResultSet rs=st.executeQuery(query);
                 //si ResultSet tiene algo (si tiene next)
@@ -130,9 +130,9 @@ public class CarnetJDBC {
         conectar();
         if (conexion != null){
             try {
-                String query = "UPDATE vehicle SET tipus='"+ c.getTipus()+ 
+                String query = "UPDATE carnet SET tipus='"+ c.getTipus()+ 
                         "',  descripcio='"+c.getDescripcio()+ "', preuHora="+c.getPreuHora()+
-                        " WHERE id='"+ c.getIdCarnet()+"';";
+                        " WHERE id="+ c.getIdCarnet()+";";
                 Statement st=conexion.createStatement();
                 st.executeUpdate(query);
                                 
@@ -154,10 +154,10 @@ public class CarnetJDBC {
             try {
                 String insertar = "insert into carnet values (?, ?, ?, ?)";
                 PreparedStatement ps = (PreparedStatement) conexion.prepareStatement(insertar);
-//                ps.setString(0, c.getIdCarnet());
-                ps.setString(1, c.getTipus());
-                ps.setString(2, c.getDescripcio());
-                ps.setDouble(3, c.getPreuHora());
+                ps.setInt(1, c.getIdCarnet());
+                ps.setString(2, c.getTipus());
+                ps.setString(3, c.getDescripcio());
+                ps.setDouble(4, c.getPreuHora());
                 
                 ps.executeUpdate();     //ejecuta la consulta
                 ps.close();             //liberamos recursos
@@ -165,6 +165,7 @@ public class CarnetJDBC {
             } catch (SQLException ex) {
                 //Logger.getLogger(CarnetJDBC.class.getName()).log(Level.SEVERE, null, ex);
                 //throw new MyException("Error al insertar: "+ ex.getLocalizedMessage());
+                System.out.println(ex.getMessage());
                 return false;
             }finally{
                 desconectar();

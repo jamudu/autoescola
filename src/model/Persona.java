@@ -4,6 +4,7 @@ package model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -24,10 +25,16 @@ abstract class Persona {
 
     public Persona() {
         nif = nom = cognoms = "";
+        dataNaixement = new Date();
     }
     
     public String getNif() {
         return nif;
+    }
+    
+    public String getDataVista() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        return sdf.format(dataNaixement);
     }
 
     public void setNif(String nif) {
@@ -62,8 +69,11 @@ abstract class Persona {
 
     public void setDataNaixement(Date dataNaixement) {
         Date oldDataNaixement = this.dataNaixement;
+        String old = getDataVista();
         this.dataNaixement = dataNaixement;
+        String nova = getDataVista();
         propertyChangeSupport.firePropertyChange(PROP_DATANAIXEMENT, oldDataNaixement, dataNaixement);
+        propertyChangeSupport.firePropertyChange("dataVista", old, nova);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
