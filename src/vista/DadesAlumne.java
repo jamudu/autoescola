@@ -345,7 +345,7 @@ public class DadesAlumne extends javax.swing.JDialog {
                     jLabel1.setText("darrer caracter = lletra");
                 }else {
                     nifTxt.setText(nifTxt.getText().substring(0,8)+c);
-                    if (EntrdaDatos.lletraDni(Integer.parseInt(nifTxt.getText().substring(0,8)))!=c){
+                    if (EntrdaDatos.calculaLetra(Integer.parseInt(nifTxt.getText().substring(0,8)))!=c){
                         jLabel1.setText("DNI incorrecte");
                     }
                 }
