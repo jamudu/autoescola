@@ -42,8 +42,8 @@ public class DadesCarnet extends javax.swing.JDialog {
         initComponents();
         formulario();
         if (modo.equals("modificar")) {
-            carnetTxt.setEditable(false);
-            carnetTxt.setFocusable(false);
+            codiTxt.setEditable(false);
+            codiTxt.setFocusable(false);
             aceptarBtn.setEnabled(true);
             this.setTitle("Modificar carnet");
         }else{            
@@ -52,11 +52,13 @@ public class DadesCarnet extends javax.swing.JDialog {
     }
     private void formulario() {
         aceptarBtn.setEnabled(false);
+        carnetTxt.getMargin().left = 10;
         descripcioTxt.getMargin().left = 10;
         preuTxt.getMargin().right = 10;
-        carnetTxt.setHorizontalAlignment(JTextField.CENTER);
+        codiTxt.setHorizontalAlignment(JTextField.CENTER);
 
         if (!modo.equals("modificar")) {
+            codiTxt.setText("");
             carnetTxt.setText("");
             descripcioTxt.setText("");
             preuTxt.setText("0");
@@ -85,6 +87,8 @@ public class DadesCarnet extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         preuTxt = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        codiTxt = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -161,17 +165,6 @@ public class DadesCarnet extends javax.swing.JDialog {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${nouCarnet.tipus}"), carnetTxt, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        carnetTxt.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                carnetTxtFocusLost(evt);
-            }
-        });
-        carnetTxt.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                carnetTxtKeyTyped(evt);
-            }
-        });
-
         codigoLbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         codigoLbl.setText("Carnet:");
 
@@ -183,6 +176,23 @@ public class DadesCarnet extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("€ / hora");
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel3.setText("Codi:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${nouCarnet.idCarnet}"), codiTxt, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        codiTxt.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                codiTxtFocusLost(evt);
+            }
+        });
+        codiTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                codiTxtKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -190,9 +200,10 @@ public class DadesCarnet extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(48, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(codigoLbl, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(colorLbl, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(descripcionLbl, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(descripcionLbl, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(codigoLbl, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -201,7 +212,9 @@ public class DadesCarnet extends javax.swing.JDialog {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(descripcioTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(carnetTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(codiTxt, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(carnetTxt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(34, 34, 34))
@@ -209,12 +222,17 @@ public class DadesCarnet extends javax.swing.JDialog {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addContainerGap(23, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(codiTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(carnetTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(codigoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(descripcionLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(descripcioTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -223,7 +241,7 @@ public class DadesCarnet extends javax.swing.JDialog {
                     .addComponent(colorLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(preuTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(29, 29, 29))
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -309,45 +327,47 @@ public class DadesCarnet extends javax.swing.JDialog {
         descripcioTxt.selectAll();
     }//GEN-LAST:event_descripcioTxtFocusGained
 
-    private void carnetTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_carnetTxtFocusLost
-        jLabel1.setText("");
-        if (carnetJDBC.existeCarnet(carnetTxt.getText())) {
-            JOptionPane.showMessageDialog(this, "Ya existeix un carnet amb aquest codi", "ERROR: Carnet duplicat", JOptionPane.ERROR_MESSAGE);
-            carnetTxt.requestFocusInWindow();
-            carnetTxt.selectAll();
-            aceptarBtn.setEnabled(false);
-        } else if (!carnetTxt.getText().equals("")) {
-            aceptarBtn.setEnabled(true);
-        } else {
-            aceptarBtn.setEnabled(false);
-        }
-    }//GEN-LAST:event_carnetTxtFocusLost
-
-    private void carnetTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_carnetTxtKeyTyped
+    private void codiTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codiTxtKeyTyped
         jLabel1.setText(null);
         char c = evt.getKeyChar();
         if (c != VK_BACK_SPACE && c != KeyEvent.VK_DELETE && c != KeyEvent.VK_ENTER) {
             evt.consume();
-            if (carnetTxt.getText().length() > 4) {                
+            if (codiTxt.getText().length() > 4) {                
                 jLabel1.setText("maxim 5 caracters");
             } else {
                 String lletra=Character.toString(c).toUpperCase();
                 c=lletra.charAt(0);
-                carnetTxt.setText(carnetTxt.getText()+c);                    
+                codiTxt.setText(codiTxt.getText()+c);                    
             }
         }
-    }//GEN-LAST:event_carnetTxtKeyTyped
+    }//GEN-LAST:event_codiTxtKeyTyped
+
+    private void codiTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_codiTxtFocusLost
+        jLabel1.setText("");
+        if (carnetJDBC.existeCarnet(codiTxt.getText())) {
+            JOptionPane.showMessageDialog(this, "Ya existeix un carnet amb aquest codi", "ERROR: Carnet duplicat", JOptionPane.ERROR_MESSAGE);
+            codiTxt.requestFocusInWindow();
+            codiTxt.selectAll();
+            aceptarBtn.setEnabled(false);
+        } else if (!codiTxt.getText().equals("")) {
+            aceptarBtn.setEnabled(true);
+        } else {
+            aceptarBtn.setEnabled(false);
+        }
+    }//GEN-LAST:event_codiTxtFocusLost
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aceptarBtn;
     private javax.swing.JButton cancelarBtn;
     private javax.swing.JTextField carnetTxt;
+    private javax.swing.JTextField codiTxt;
     private javax.swing.JLabel codigoLbl;
     private javax.swing.JLabel colorLbl;
     private javax.swing.JTextField descripcioTxt;
     private javax.swing.JLabel descripcionLbl;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField preuTxt;

@@ -17,7 +17,7 @@ public class ImagenFondo extends JPanel{
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.drawImage(fondo,80,80,getWidth()-160,getHeight()-160,null);
+        g.drawImage(fondo,0,0,getWidth()-0,getHeight()-0,null);
         setOpaque(false);
     }
     public void setImage(String image){

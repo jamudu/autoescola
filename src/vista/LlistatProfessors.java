@@ -130,7 +130,7 @@ public class LlistatProfessors extends javax.swing.JDialog {
 
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/eliminar60x60.jpg"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/salir60x60.jpg"))); // NOI18N
         jButton1.setToolTipText("salir");
         jButton1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {

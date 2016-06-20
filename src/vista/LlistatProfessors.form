@@ -163,7 +163,7 @@
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/imagenes/eliminar60x60.jpg"/>
+          <Image iconType="3" name="/imagenes/salir60x60.jpg"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="salir"/>
       </Properties>
