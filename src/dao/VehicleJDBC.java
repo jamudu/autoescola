@@ -74,7 +74,7 @@ public class VehicleJDBC {
         conectar();
         if (conexion !=null){
             try {
-                String query ="select * from vehicles";
+                String query ="select * from vehicle join carnet on vehicle.fk_carnet = carnet.id ";
                 Statement st=conexion.createStatement();
                 ResultSet rs=st.executeQuery(query);
                 while (rs.next()){
@@ -82,13 +82,21 @@ public class VehicleJDBC {
                     ve.setMatricula(rs.getString("matricula"));  // =  rs.getString(1)
                     ve.setMarca(rs.getString("marca"));
                     ve.setModel(rs.getString("model"));
-                    lp.altaVehicle(ve);
+                    Carnet aux = new Carnet();
+                    aux.setTipus(rs.getString("tipus"));
+                    aux.setDescripcio(rs.getString("descripcio"));
+                    aux.setPreuHora(rs.getDouble("preuHora"));
+                    aux.setIdCarnet(rs.getInt("fk_carnet"));
+                    ve.setCarnet(aux);
+                   
+                    lp.altaVehicle(ve);                    
                 }
                 rs.close();
                 st.close();
             } catch (SQLException ex) {
                 //Logger.getLogger(VehicleJDBC.class.getName()).log(Level.SEVERE, null, ex);
                 //throw new MyException("Error al consultar dades: "+ ex.getLocalizedMessage());
+                System.out.println(ex.getMessage());
             }finally{
                 desconectar();
             }
@@ -157,7 +165,7 @@ public class VehicleJDBC {
                 ps.setString(1, v.getMatricula());
                 ps.setString(2, v.getMarca());
                 ps.setString(3, v.getModel());
-//                ps.setString(4, v.getIdCarnet());  
+                ps.setInt(4, v.getCarnet().getIdCarnet());  
                 
                 ps.executeUpdate();     //ejecuta la consulta
                 ps.close();             //liberamos recursos

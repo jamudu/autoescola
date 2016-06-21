@@ -1,65 +1,44 @@
 //
-
 package vista;
 
-import static autoescola.Autoescola.vehicleJDBC;
-import dao.VehicleJDBC;
+import static autoescola.Autoescola.matriculaJDBC;
+import dao.MatriculaJDBC;
 import java.awt.event.KeyEvent;
 import javax.swing.InputMap;
-import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import model.Carnet;
-import model.Vehicle;
-import model.ListaVehicles;
+import model.LlistaMatricula;
 
 /**
  *
  * @author jaume
  */
-public class LlistatVehicles extends javax.swing.JDialog {
+public class LlistatMatricules extends javax.swing.JDialog {
+
     private TableRowSorter<TableModel> modeloOrdenado;
 
-    private ListaVehicles totsVehicles;
+    private LlistaMatricula totesMatricules;
 
-    public ListaVehicles getTotsVehicles() {
-        return totsVehicles;
+    public LlistaMatricula getTotesMatricules() {
+        return totesMatricules;
     }
 
-    public void setTotsVehicles(ListaVehicles totsVehicles) {
-        this.totsVehicles = totsVehicles;
+    public void setTotesMatricules(LlistaMatricula totesMatricules) {
+        this.totesMatricules = totesMatricules;
     }
 
-    private Vehicle vehicleSelecc;
-
-    public Vehicle getVehicleSelecc() {
-        return vehicleSelecc;
-    }
-
-    public void setVehicleSelecc(Vehicle vehicleSelecc) {
-        this.vehicleSelecc = vehicleSelecc;
-    }
-
-    private Carnet carnetSelecc;
-
-    public Carnet getCarnetSelecc() {
-        return carnetSelecc;
-    }
-
-    public void setCarnetSelecc(Carnet carnetSelecc) {
-        this.carnetSelecc = carnetSelecc;
-    }
+    
 
     /**
-     * Creates new form LlistatVehicles
+     * Creates new form LlistatProfessors
      */
-    public LlistatVehicles(java.awt.Frame parent, boolean modal, String modo) {
+    public LlistatMatricules(java.awt.Frame parent, boolean modal, String modo) {
         super(parent, modal);
-        vehicleJDBC = new VehicleJDBC();
-        totsVehicles = vehicleJDBC.totsVehicles();
+        matriculaJDBC = new MatriculaJDBC();
+        totesMatricules = matriculaJDBC.totesMatricules();
 
         initComponents();
 
@@ -70,18 +49,17 @@ public class LlistatVehicles extends javax.swing.JDialog {
         DefaultTableCellRenderer modelocentrar = new DefaultTableCellRenderer();
         modelocentrar.setHorizontalAlignment(SwingConstants.CENTER);
 
-        jTable1.getColumnModel().getColumn(0).setCellRenderer(modelocentrar);
-        jTable1.getColumnModel().getColumn(3).setCellRenderer(modelocentrar);
-        
+//        jTable1.getColumnModel().getColumn(0).setCellRenderer(modelocentrar);
+//        jTable1.getColumnModel().getColumn(2).setCellRenderer(modelocentrar);
 
         if (modo.equals("L")) {
             jButton2.setVisible(false);
             jButton3.setVisible(false);
-            this.setTitle("Llistat vehicles");
-        }else{
-            this.setTitle("Gestio vehicless");
+            this.setTitle("Llistat professors");
+        } else {
+            this.setTitle("Gestio professors");
         }
-        jLabel1.setText("Total:  " + vehicleJDBC.contarVehicles());
+        jLabel1.setText("Total:  " + matriculaJDBC.contarMatricules());
     }
 
     /**
@@ -94,48 +72,41 @@ public class LlistatVehicles extends javax.swing.JDialog {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/editar1.jpg"))); // NOI18N
-        jButton3.setToolTipText("modificar prenda seleccionada");
-        jButton3.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jButton3FocusGained(evt);
-            }
-        });
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
 
         jTable1.setBackground(new java.awt.Color(255, 255, 153));
         jTable1.setFocusable(false);
         jTable1.setOpaque(false);
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${totsVehicles.lista}");
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${totsProfessors.lista}");
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTable1);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${matricula}"));
-        columnBinding.setColumnName("Matricula");
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nif}"));
+        columnBinding.setColumnName("Nif");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${marca}"));
-        columnBinding.setColumnName("Marca");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nom}"));
+        columnBinding.setColumnName("Nom");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${model}"));
-        columnBinding.setColumnName("Model");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${cognoms}"));
+        columnBinding.setColumnName("Cognoms");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dataVista}"));
+        columnBinding.setColumnName("Data Vista");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${tipusEnsenyament}"));
+        columnBinding.setColumnName("Tipus Ensenyament");
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${carnet}"));
         columnBinding.setColumnName("Carnet");
         columnBinding.setColumnClass(model.Carnet.class);
         bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${vehicleSelecc}"), jTable1, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
+        jTableBinding.bind();org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${professorSelecc}"), jTable1, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
         bindingGroup.addBinding(binding);
 
         jScrollPane1.setViewportView(jTable1);
@@ -171,13 +142,26 @@ public class LlistatVehicles extends javax.swing.JDialog {
             }
         });
 
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/editar1.jpg"))); // NOI18N
+        jButton3.setToolTipText("modificar prenda seleccionada");
+        jButton3.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jButton3FocusGained(evt);
+            }
+        });
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,7 +188,7 @@ public class LlistatVehicles extends javax.swing.JDialog {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -212,31 +196,6 @@ public class LlistatVehicles extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton3FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jButton3FocusGained
-        InputMap map = new InputMap();
-
-        map.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false), "pressed");
-        map.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true), "released");
-
-        jButton3.setInputMap(0, map);
-    }//GEN-LAST:event_jButton3FocusGained
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if (jTable1.getSelectedRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "Tens que seleccionar un professor", "ERROR: Professor no seleccionat", JOptionPane.ERROR_MESSAGE);
-        } else {
-            Vehicle copia =  (Vehicle) vehicleSelecc.clone();
-            DadesVehicle dv = new DadesVehicle(null, true, vehicleSelecc, "modificar");
-            dv.setLocationRelativeTo(null);
-            dv.setVisible(true);
-            if (dv.cancelar) {
-                vehicleSelecc.setMatricula(copia.getMatricula());
-                vehicleSelecc.setMarca(copia.getMarca());
-                vehicleSelecc.setModel(copia.getModel());               
-            }
-        }
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jButton1FocusGained
         InputMap map = new InputMap();
@@ -261,23 +220,50 @@ public class LlistatVehicles extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2FocusGained
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (jTable1.getSelectedRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "Tens que seleccionar un vehicle", "ERROR: Vehicle no seleccionat", JOptionPane.ERROR_MESSAGE);
-        } else {
-            int respuesta = JOptionPane.showConfirmDialog(this, "¿estas segur d'eliminar el vehicle", "ATENCION", JOptionPane.YES_NO_OPTION);
-            if (respuesta == JOptionPane.YES_OPTION) {
-                if (vehicleJDBC.baixaVehicle(vehicleSelecc)) {
-                    totsVehicles.bajaVehicle(vehicleSelecc);
-                    jLabel1.setText("Total:  " + vehicleJDBC.contarVehicles());
-                    JOptionPane.showMessageDialog(this, "     Vehicle donat de baixa");
-                } else {
-                    JOptionPane.showMessageDialog(this, "    No s'ha pogut donar de baixa el vehicle");
-                }
-                //dispose();
-            }
-        }
+//        if (jTable1.getSelectedRowCount() == 0) {
+//            JOptionPane.showMessageDialog(this, "Tens que seleccionar una matricula", "ERROR: Matricula no seleccionada", JOptionPane.ERROR_MESSAGE);
+//        } else {
+//            int respuesta = JOptionPane.showConfirmDialog(this, "¿estas segur d'eliminar la matricula", "ATENCION", JOptionPane.YES_NO_OPTION);
+//            if (respuesta == JOptionPane.YES_OPTION) {
+//                if (matriculaJDBC.bajaProfessor(professorSelecc)) {
+//                    totsProfessors.bajaProfessor(professorSelecc);
+//                    jLabel1.setText("Total:  " + professorJDBC.contarProfessor());
+//                    JOptionPane.showMessageDialog(this, "     Professor donat de baixa");
+//                } else {
+//                    JOptionPane.showMessageDialog(this, "    No s'ha pogut donar de baixa el professor");
+//                }
+//                //dispose();
+//            }
+//        }
     }//GEN-LAST:event_jButton2ActionPerformed
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">  
+
+    private void jButton3FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jButton3FocusGained
+        InputMap map = new InputMap();
+
+        map.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false), "pressed");
+        map.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true), "released");
+
+        jButton3.setInputMap(0, map);
+    }//GEN-LAST:event_jButton3FocusGained
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+//        if (jTable1.getSelectedRowCount() == 0) {
+//            JOptionPane.showMessageDialog(this, "Tens que seleccionar un professor", "ERROR: Professor no seleccionat", JOptionPane.ERROR_MESSAGE);
+//        } else {
+//            Professor copia = (Professor) professorSelecc.clone();
+//            DadesProfessor dp = new DadesProfessor(null, true, professorSelecc, "modificar");
+//            dp.setLocationRelativeTo(null);
+//            dp.setVisible(true);
+//            if (dp.cancelar) {
+//                professorSelecc.setNif(copia.getNif());
+//                professorSelecc.setNom(copia.getNom());
+//                professorSelecc.setCognoms(copia.getCognoms());
+//                professorSelecc.setDataNaixement(copia.getDataNaixement());
+//                professorSelecc.setTipusEnsenyament(copia.getTipusEnsenyament());
+//            }
+//        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -287,5 +273,5 @@ public class LlistatVehicles extends javax.swing.JDialog {
     private javax.swing.JTable jTable1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
-    // </editor-fold>  
+    // </editor-fold>
 }

@@ -146,6 +146,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu7.add(jMenuItem14);
 
         jMenuItem15.setText("Baixa / Modificacio");
+        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem15ActionPerformed(evt);
+            }
+        });
         jMenu7.add(jMenuItem15);
 
         jMenu2.add(jMenu7);
@@ -320,6 +325,12 @@ public class Menu extends javax.swing.JFrame {
         dm.setLocationRelativeTo(this);
         dm.setVisible(true);
     }//GEN-LAST:event_jMenuItem14ActionPerformed
+
+    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
+        LlistatMatricules lm = new LlistatMatricules(this, true, "M");
+        lm.setLocationRelativeTo(this);
+        lm.setVisible(true);
+    }//GEN-LAST:event_jMenuItem15ActionPerformed
     // <editor-fold defaultstate="collapsed" desc="Generated Code">  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;

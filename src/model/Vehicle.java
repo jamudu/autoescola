@@ -3,6 +3,7 @@ package model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Objects;
 
 /**
  *
@@ -34,6 +35,33 @@ public class Vehicle implements Cloneable{
     public Vehicle() {
         matricula = marca = model = "";
         carnet = new Carnet();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 11 * hash + Objects.hashCode(this.matricula);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Vehicle other = (Vehicle) obj;
+        if (!Objects.equals(this.matricula, other.matricula)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" + "matricula=" + matricula + ", marca=" + marca + ", model=" + model + ", carnet=" + carnet + '}';
     }
     
     public Object clone()  {

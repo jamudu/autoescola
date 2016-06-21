@@ -18,12 +18,6 @@ public class Alumne extends Persona implements Cloneable, Comparable{
         super();
         numIntentsExamen = 0;
     }
-
-    @Override
-    public String toString() {
-        return this.getCognoms();
-    }
-    
     
     public Object clone()  {
         try {

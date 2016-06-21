@@ -1,5 +1,4 @@
 //
-
 package model;
 
 import java.beans.PropertyChangeListener;
@@ -11,12 +10,13 @@ import java.util.Date;
  *
  * @author usu21
  */
-abstract class Persona {    
+abstract class Persona {
+
     private String nif;
     private String nom;
     private String cognoms;
     private Date dataNaixement;
-    
+
     public static final String PROP_NIF = "nif";
     public static final String PROP_NOM = "nom";
     public static final String PROP_COGNOMS = "cognoms";
@@ -27,11 +27,19 @@ abstract class Persona {
         nif = nom = cognoms = "";
         dataNaixement = new Date();
     }
-    
+
+    @Override
+    public String toString() {
+        if (cognoms.equals("-- Selecciona alumne --")) {
+            return cognoms;
+        }
+        return cognoms + ", " + nom;
+    }
+
     public String getNif() {
         return nif;
     }
-    
+
     public String getDataVista() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         return sdf.format(dataNaixement);
@@ -42,7 +50,7 @@ abstract class Persona {
         this.nif = nif;
         propertyChangeSupport.firePropertyChange(PROP_NIF, oldNif, nif);
     }
-    
+
     public String getNom() {
         return nom;
     }
@@ -52,7 +60,7 @@ abstract class Persona {
         this.nom = nom;
         propertyChangeSupport.firePropertyChange(PROP_NOM, oldNom, nom);
     }
-    
+
     public String getCognoms() {
         return cognoms;
     }
@@ -62,7 +70,7 @@ abstract class Persona {
         this.cognoms = cognoms;
         propertyChangeSupport.firePropertyChange(PROP_COGNOMS, oldCognoms, cognoms);
     }
-    
+
     public Date getDataNaixement() {
         return dataNaixement;
     }

@@ -43,27 +43,7 @@ public class DadesMatricula extends javax.swing.JDialog {
     public void setTotsCarnets(LlistaCarnet totsCarnets) {
         this.totsCarnets = totsCarnets;
     }
-
-    private Alumne nouAlumne;
-
-    public Alumne getNouAlumne() {
-        return nouAlumne;
-    }
-
-    public void setNouAlumne(Alumne nouAlumne) {
-        this.nouAlumne = nouAlumne;
-    }
-
-    private Carnet nouCarnet;
-
-    public Carnet getNouCarnet() {
-        return nouCarnet;
-    }
-
-    public void setNouCarnet(Carnet nouCarnet) {
-        this.nouCarnet = nouCarnet;
-    }
-
+    
     private Matricula novaMatricula;
 
     public Matricula getNovaMatricula() {
@@ -84,7 +64,8 @@ public class DadesMatricula extends javax.swing.JDialog {
         alumneJDBC = new AlumneJDBC();
         carnetJDBC = new CarnetJDBC();
         matriculaJDBC = new MatriculaJDBC();
-
+        novaMatricula = new Matricula();
+                
         totsAlumnes = alumneJDBC.seleccionarAllAlumnes();
         Alumne al = new Alumne();
         al.setCognoms("-- Selecciona alumne --");
@@ -124,8 +105,8 @@ public class DadesMatricula extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         descripcionLbl = new javax.swing.JLabel();
         codigoLbl = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<String>();
+        jComboBox2 = new javax.swing.JComboBox<String>();
         jPanel2 = new javax.swing.JPanel();
         cancelarBtn = new javax.swing.JButton();
         aceptarBtn = new javax.swing.JButton();
@@ -141,20 +122,20 @@ public class DadesMatricula extends javax.swing.JDialog {
         codigoLbl.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         codigoLbl.setText("Alumne:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${totsAlumnes.lista}");
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jComboBox1);
         bindingGroup.addBinding(jComboBoxBinding);
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${nouAlumne}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${novaMatricula.alumne}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         eLProperty = org.jdesktop.beansbinding.ELProperty.create("${totsCarnets.lista}");
         jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jComboBox2);
         bindingGroup.addBinding(jComboBoxBinding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${nouCarnet}"), jComboBox2, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${novaMatricula.carnet}"), jComboBox2, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -295,7 +276,7 @@ public class DadesMatricula extends javax.swing.JDialog {
         if (comprobarCampos()) {
             if (matriculaJDBC.insertarMatricula(novaMatricula)) {
                 JOptionPane.showMessageDialog(this, "Matricula donada d'alta");
-                nouAlumne = new Alumne();
+                
                 dispose();
 
             } else {
