@@ -23,23 +23,45 @@ public class ProfessorJDBC {
 
     //funcio eliminar professor
     public boolean bajaProfessor(Professor p) {
-        boolean ok = false;
+        boolean ok=false;
         conectar();
-        if (conexion != null) {
+        if (conexion != null){
             try {
-                String query = "delete from persona where codigo=" + p.getIdPersona() + ";";
-                Statement st = conexion.createStatement();
+                conexion.setAutoCommit(false);
+                String query = "delete from professor where fk_persona='"+ p.getNif()+"';";
+                Statement st=conexion.createStatement();
                 st.executeUpdate(query);
+                
+                query = "delete from persona where nif='"+ p.getNif()+"';";
+                st=conexion.createStatement();
+                st.executeUpdate(query);
+                
                 //si ResultSet tiene algo (si tiene next)
-
-                st.close();
-                ok = true;
+                
+                st.close();   
+                ok=true;
             } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
                 //Logger.getLogger(ProfessorJDBC.class.getName()).log(Level.SEVERE, null, ex);
                 //throw new MyException("Error al actualizar dades: "+ ex.getLocalizedMessage());
-            } finally {
+                JOptionPane.showMessageDialog(null, "Error en donar de l'alumne.",
+                        "Error!!!", JOptionPane.ERROR_MESSAGE);
+                try {
+                    conexion.rollback();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error en desfer la transacció.",
+                        "Error!!!", JOptionPane.ERROR_MESSAGE);
+                }
+                return false;
+            }finally{
+                try {
+                    conexion.setAutoCommit(true);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Error en desconnectar.",
+                        "Error!!!", JOptionPane.ERROR_MESSAGE);
+                }
                 desconectar();
-            }
+            }        
         }
         return ok;
     }
@@ -88,7 +110,12 @@ public class ProfessorJDBC {
                     pr.setCognoms(rs.getString("cognoms"));
                     pr.setDataNaixement(rs.getDate("dataNaixement"));
                     pr.setTipusEnsenyament(rs.getString("ensenyament"));
-                    pr.setCarnet(rs.getInt("id"));
+                    Carnet aux = new Carnet();
+                    aux.setTipus(rs.getString("tipus"));
+                    aux.setDescripcio(rs.getString("descripcio"));
+                    aux.setPreuHora(rs.getDouble("preuHora"));
+                    aux.setIdCarnet(rs.getInt("fk_carnet"));
+                    pr.setCarnet(aux);
                     lp.altaProfessor(pr);
                 }
 
@@ -126,7 +153,7 @@ public class ProfessorJDBC {
         conectar();
         if (conexion != null) {
             try {
-                String query = "select *from persona where codigo='" + codi + "'";
+                String query = "select *from persona where nif='" + codi + "'";
                 Statement st = conexion.createStatement();
                 ResultSet rs = st.executeQuery(query);
                 //si ResultSet tiene algo (si tiene next)
@@ -150,30 +177,54 @@ public class ProfessorJDBC {
     }
 
     //funcio modificar professor
-    public boolean modificarProfessor(Professor p) {
-        boolean ok = false;
+    public boolean modificarProfessor(Professor p) {        
         conectar();
         if (conexion != null) {
             try {
+                conexion.setAutoCommit(false);
                 String query = "UPDATE persona SET nom='" + p.getNom()
-                        + "',  cognoms='" + p.getCognoms() + "', dataNaixement='" + p.getDataNaixement()
-                        + "', ensenyament='" + p.getTipusEnsenyament() + "' WHERE nif=" + p.getNif() + ";";
+                        + "',  cognoms='" + p.getCognoms() + "', dataNaixement='" + new java.sql.Date(p.getDataNaixement().getTime())
+                        + "' WHERE nif='" + p.getNif() + "';";
                 Statement st = conexion.createStatement();
                 st.executeUpdate(query);
-
+                
+                query = "UPDATE professor SET ensenyament='" + p.getTipusEnsenyament() 
+                        + "', fk_carnet=" + p.getCarnet().getIdCarnet()+ " WHERE fk_persona='" + p.getNif() + "';";
+                st = conexion.createStatement();
+                st.executeUpdate(query);                
+                
+                
+                conexion.commit();
+                
                 st.close();
-                ok = true;
+                return true;
             } catch (SQLException ex) {
-                //Logger.getLogger(ProfessorJDBC.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Error en inserir el professor",
+                        "Error!!!", JOptionPane.ERROR_MESSAGE);
+                System.out.println(ex.getMessage());
+                try {
+                    conexion.rollback();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error en desfer la transacció.",
+                            "Error!!!", JOptionPane.ERROR_MESSAGE);
+                }
+                return false;
             } finally {
+                try {
+                    conexion.setAutoCommit(true);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Error en desconnectar.",
+                            "Error!!!", JOptionPane.ERROR_MESSAGE);
+                }
                 desconectar();
             }
+        } else {
+            return false;
         }
-        return true;
     }
 
     //funcion insertar professor
-    public boolean insertarProfessor(Professor p, Carnet c) {
+    public boolean insertarProfessor(Professor p) {
         conectar();
         if (conexion != null) {
             try {
@@ -189,7 +240,7 @@ public class ProfessorJDBC {
                 ps = conexion.prepareStatement(sentencia);
                 ps.setString(1, p.getNif());
                 ps.setString(2, p.getTipusEnsenyament());
-                ps.setInt(3, c.getIdCarnet());
+                ps.setInt(3, p.getCarnet().getIdCarnet());
                 ps.executeUpdate();
                 conexion.commit();
                 ps.close();

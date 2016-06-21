@@ -43,8 +43,8 @@ public class MatriculaJDBC {
                 String sentencia = "insert into Matricula values (?, ?, ?)";
                 PreparedStatement ps = conexion.prepareStatement(sentencia);
                 ps.setInt(1, m.getIdMatricula());
-                ps.setString(2, m.getNifAlumne());
-                ps.setInt(3, m.getIdCarnet());
+//                ps.setString(2, m.getNifAlumne());
+//                ps.setInt(3, m.getIdCarnet());
                 ps.executeUpdate();            
                 
                 ps.close();

@@ -77,7 +77,15 @@ public class DadesProfessor extends javax.swing.JDialog {
         formulario();
         if (modo.equals("modificar")) {
             nifTxt.setEditable(false);
-            nifTxt.setFocusable(false);           
+            nifTxt.setFocusable(false); 
+            aceptarBtn.setEnabled(true);
+            jXDatePicker1.setDate(nouProfessor.getDataNaixement());
+            jRadioButton2.setSelected(true);
+            if (nouProfessor.getTipusEnsenyament().equals("T")){
+                jRadioButton1.setSelected(true);
+            }
+            
+            System.out.println(jComboBox1.getSelectedIndex());
             this.setTitle("Modificar professor");
         }else{            
             this.setTitle("Alta professor");
@@ -127,7 +135,7 @@ public class DadesProfessor extends javax.swing.JDialog {
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<String>();
         jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -264,7 +272,7 @@ public class DadesProfessor extends javax.swing.JDialog {
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${listaCombo.lista}");
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jComboBox1);
         bindingGroup.addBinding(jComboBoxBinding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${carnetSelecc}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${nouProfessor.carnet}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         jXDatePicker1.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -385,19 +393,18 @@ public class DadesProfessor extends javax.swing.JDialog {
     private void aceptarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarBtnActionPerformed
         if (comprobarCampos()) {
             nouProfessor.setDataNaixement(jXDatePicker1.getDate());
+            
             nouProfessor.setTipusEnsenyament("P");
             if (jRadioButton1.isSelected()){
                 nouProfessor.setTipusEnsenyament("T");
             }
             if (modo.equals("alta")) {
-                if (professorJDBC.insertarProfessor(nouProfessor, carnetSelecc)) {
+                if (professorJDBC.insertarProfessor(nouProfessor)) {
                     JOptionPane.showMessageDialog(this, "Professor donat d'alta");
                     nouProfessor = new Professor();
                     formulario();
                     //                dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "No s'ha pogut insertar el professor", "ERROR. Professor no donat d'alta", JOptionPane.ERROR_MESSAGE);
-                }
+                } 
             } else if (professorJDBC.modificarProfessor(nouProfessor)) {
                 JOptionPane.showMessageDialog(this, "Professor modificat");
                 cancelar = false;
@@ -451,9 +458,10 @@ public class DadesProfessor extends javax.swing.JDialog {
                     jLabel1.setText("darrer caracter = lletra");
                 }else {
                     nifTxt.setText(nifTxt.getText().substring(0,8)+c);
-                    if (EntrdaDatos.calculaLetra(Integer.parseInt(nifTxt.getText().substring(0,8)))!=c){
-                        jLabel1.setText("DNI incorrecte");
-                    }
+//                    if (EntrdaDatos.calculaLetra(Integer.parseInt(nifTxt.getText().substring(0,8)))!=c){
+//                        jLabel1.setText("DNI incorrecte");
+//                        nifTxt.setText("");
+//                    }
                 }
             } else if (c < '0' || c > '9') {
                 evt.consume();

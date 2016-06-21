@@ -69,13 +69,15 @@ public class DadesVehicle extends javax.swing.JDialog {
         listaCombo = carnetJDBC.totsCarnets();
         Carnet retol = new Carnet();
         retol.setTipus("-- Selecciona carnet --");
+         
         listaCombo.altaCarnet(retol);
-        Collections.sort(listaCombo.getLista());
+        Collections.sort(listaCombo.getLista());        
         initComponents();
         formulario();
         if (modo.equals("modificar")) {
             matriculaTxt.setEditable(false);
             matriculaTxt.setFocusable(false);
+            aceptarBtn.setEnabled(true);
             this.setTitle("Modificar vehicle");
         } else {
             this.setTitle("Alta vehicle");
@@ -115,7 +117,7 @@ public class DadesVehicle extends javax.swing.JDialog {
         codigoLbl = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         modelTxt = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<String>();
         jPanel2 = new javax.swing.JPanel();
         cancelarBtn = new javax.swing.JButton();
         aceptarBtn = new javax.swing.JButton();
@@ -170,12 +172,12 @@ public class DadesVehicle extends javax.swing.JDialog {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${nouVehicle.model}"), modelTxt, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${listaCombo.lista}");
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jComboBox1);
         bindingGroup.addBinding(jComboBoxBinding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${carnetSelecc}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${nouVehicle.carnet}"), jComboBox1, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -358,7 +360,7 @@ public class DadesVehicle extends javax.swing.JDialog {
     private void aceptarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarBtnActionPerformed
         if (comprobarCampos()) {
             if (modo.equals("alta")) {
-                if (vehicleJDBC.insertarVehicle(nouVehicle, carnetSelecc)) {
+                if (vehicleJDBC.insertarVehicle(nouVehicle)) {
                     JOptionPane.showMessageDialog(this, "Vehicle donat d'alta");
                     nouVehicle = new Vehicle();
                     formulario();

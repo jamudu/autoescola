@@ -4,6 +4,7 @@ package model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Objects;
 
 /**
  *
@@ -33,6 +34,28 @@ public class Carnet implements Cloneable, Comparable{
     @Override
     public String toString() {
         return tipus;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.tipus);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Carnet other = (Carnet) obj;
+        if (!Objects.equals(this.tipus, other.tipus)) {
+            return false;
+        }
+        return true;
     }
 
     public Object clone()  {

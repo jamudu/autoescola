@@ -61,7 +61,7 @@ public class LlistatProfessors extends javax.swing.JDialog {
         modelocentrar.setHorizontalAlignment(SwingConstants.CENTER);
 
         jTable1.getColumnModel().getColumn(0).setCellRenderer(modelocentrar);
-        for (int i = 3; i < 5; i++) {
+        for (int i = 3; i < 6; i++) {
             jTable1.getColumnModel().getColumn(i).setCellRenderer(modelocentrar);
         }
 
@@ -103,27 +103,21 @@ public class LlistatProfessors extends javax.swing.JDialog {
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nif}"));
         columnBinding.setColumnName("Nif");
         columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nom}"));
         columnBinding.setColumnName("Nom");
         columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${cognoms}"));
         columnBinding.setColumnName("Cognoms");
         columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dataNaixement}"));
-        columnBinding.setColumnName("Data Naixement");
-        columnBinding.setColumnClass(java.util.Date.class);
-        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dataVista}"));
+        columnBinding.setColumnName("Data Vista");
+        columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${tipusEnsenyament}"));
         columnBinding.setColumnName("Tipus Ensenyament");
         columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${carnet}"));
         columnBinding.setColumnName("Carnet");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding.setEditable(false);
+        columnBinding.setColumnClass(model.Carnet.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${professorSelecc}"), jTable1, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
         bindingGroup.addBinding(binding);

@@ -11,28 +11,27 @@ import java.beans.PropertyChangeSupport;
  */
 public class Professor extends Persona implements Cloneable{
     
-    private String idPersona;
-    private String tipusEnsenyament;
-    private int carnet;
+    private String tipusEnsenyament;    
+    private Carnet carnet;
+
+    public Carnet getCarnet() {
+        return carnet;
+    }
+
+    public void setCarnet(Carnet carnet) {
+        Carnet oldCarnet = this.carnet;
+        this.carnet = carnet;
+        propertyChangeSupport.firePropertyChange(PROP_CARNET, oldCarnet, carnet);
+    }
 
     public static final String PROP_IDPERSONA = "idPersona";
     public static final String PROP_TIPUSENSENYAMENT = "tipusEnsenyament";
     public static final String PROP_CARNET = "carnet";
-
-    public String getIdPersona() {
-        return idPersona;
-    }
-
-    public void setIdPersona(String idPersona) {
-        String oldIdPersona = this.idPersona;
-        this.idPersona = idPersona;
-        propertyChangeSupport.firePropertyChange(PROP_IDPERSONA, oldIdPersona, idPersona);
-    }
-
+    
     public Professor() {
         super();
-        idPersona="";
         tipusEnsenyament="";
+        carnet=new Carnet();
     }
 
     public Object clone()  {
@@ -43,17 +42,7 @@ public class Professor extends Persona implements Cloneable{
         }
         return null;
     }
-    
-    public int getCarnet() {
-        return carnet;
-    }
-
-    public void setCarnet(int carnet) {
-        int oldCarnet = this.carnet;
-        this.carnet = carnet;
-        propertyChangeSupport.firePropertyChange(PROP_CARNET, oldCarnet, carnet);
-    }
-    
+        
     public String getTipusEnsenyament() {
         return tipusEnsenyament;
     }

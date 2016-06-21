@@ -148,7 +148,7 @@ public class VehicleJDBC {
     }
     
     //funcion insertar vehicle
-    public boolean insertarVehicle(Vehicle v, Carnet c){
+    public boolean insertarVehicle(Vehicle v){
         conectar();
         if (conexion != null){
             try {
@@ -157,7 +157,7 @@ public class VehicleJDBC {
                 ps.setString(1, v.getMatricula());
                 ps.setString(2, v.getMarca());
                 ps.setString(3, v.getModel());
-                ps.setInt(4, c.getIdCarnet());  
+//                ps.setString(4, v.getIdCarnet());  
                 
                 ps.executeUpdate();     //ejecuta la consulta
                 ps.close();             //liberamos recursos

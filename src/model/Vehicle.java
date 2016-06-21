@@ -11,17 +11,29 @@ import java.beans.PropertyChangeSupport;
 public class Vehicle implements Cloneable{    
     private String matricula;
     private String marca;
-    private String model;
-    private int idCarnet;
-    
+    private String model;      
+    private Carnet carnet;
+
+    public Carnet getCarnet() {
+        return carnet;
+    }
+
+    public void setCarnet(Carnet carnet) {
+        Carnet oldCarnet = this.carnet;
+        this.carnet = carnet;
+        propertyChangeSupport.firePropertyChange(PROP_CARNET, oldCarnet, carnet);
+    }
+  
     public static final String PROP_MATRICULA = "matricula";
     public static final String PROP_MARCA = "marca";
-    public static final String PROP_MODEL = "model";
-    public static final String PROP_IDCARNET = "idCarnet";
+    public static final String PROP_MODEL = "model"; 
+    public static final String PROP_CARNET = "carnet";
+
     private transient final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
     
     public Vehicle() {
         matricula = marca = model = "";
+        carnet = new Carnet();
     }
     
     public Object clone()  {
@@ -62,17 +74,7 @@ public class Vehicle implements Cloneable{
         this.model = model;
         propertyChangeSupport.firePropertyChange(PROP_MODEL, oldModel, model);
     }
-    
-    public int getIdCarnet() {
-        return idCarnet;
-    }
-    
-    public void setIdCarnet(int idCarnet) {
-        int oldIdCarnet = this.idCarnet;
-        this.idCarnet = idCarnet;
-        propertyChangeSupport.firePropertyChange(PROP_IDCARNET, oldIdCarnet, idCarnet);
-    }
-    
+        
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(listener);
     }
