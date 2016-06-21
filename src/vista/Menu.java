@@ -9,6 +9,7 @@ import model.Carnet;
 import model.ImagenFondo;
 import model.Professor;
 import model.Vehicle;
+import model.Practica;
 
 /**
  *
@@ -235,6 +236,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu4.add(jMenuItem12);
 
         jMenuItem18.setText("Practiques");
+        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem18ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem18);
 
         jMenuItem19.setText("Facturacio");
@@ -353,6 +359,12 @@ public class Menu extends javax.swing.JFrame {
         la.setLocationRelativeTo(this);
         la.setVisible(true);
     }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+        DadesPractica dp = new DadesPractica(this, true, new Practica(), "alta");
+        dp.setLocationRelativeTo(this);
+        dp.setVisible(true);
+    }//GEN-LAST:event_jMenuItem18ActionPerformed
     // <editor-fold defaultstate="collapsed" desc="Generated Code">  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;

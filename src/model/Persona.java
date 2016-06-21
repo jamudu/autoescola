@@ -30,7 +30,7 @@ abstract class Persona {
 
     @Override
     public String toString() {
-        if (cognoms.equals("-- Selecciona alumne --")) {
+        if (cognoms.equals("-- Selecciona alumne --") || cognoms.equals("-- Selecciona professor --")) {
             return cognoms;
         }
         return cognoms + ", " + nom;

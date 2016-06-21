@@ -61,6 +61,9 @@ public class Vehicle implements Cloneable, Comparable{
 
     @Override
     public String toString() {
+        if (model.equals("-- Selecciona vehicle --")) {
+            return model;
+        }
         return marca + ", " + model;
     }
     
