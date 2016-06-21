@@ -11,25 +11,27 @@ import java.util.Date;
  * @author usu21
  */
 public class Practica {
+//    private String idVehicle;
     
-    private String idAlumne;
-    private String idProfessor;
-    private String idVehicle;
-    private Date diaPractica;
+    private Alumne alumne;
+    private Professor professor;
+    private Vehicle vehicle;
     private int horaInici;
-
+    private Date diaPractica;
+    
     public Practica() {
-        idAlumne="";
-        idProfessor="";
-        idVehicle="";
+        alumne = new Alumne();
+        professor = new Professor();
+        vehicle = new Vehicle();
         diaPractica=new Date();
     }
-
+    
+    public static final String PROP_ALUMNE = "alumne";
+    public static final String PROP_PROFESSOR = "professor";
+    public static final String PROP_VEHICLE = "vehicle";
     public static final String PROP_HORAINICI = "horaInici";
     public static final String PROP_DATA = "diaPractica";
-    public static final String PROP_IDVEHICLE = "idVehicle";
-    public static final String PROP_IDPROFESSOR = "idProfessor";
-    public static final String PROP_IDALUMNE = "idAlumne";
+    private transient final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     public int getHoraInici() {
         return horaInici;
@@ -50,39 +52,37 @@ public class Practica {
         this.diaPractica = data;
         propertyChangeSupport.firePropertyChange(PROP_DATA, oldData, data);
     }    
-
-    public String getIdVehicle() {
-        return idVehicle;
+    
+    public Alumne getAlumne() {
+        return alumne;
     }
 
-    public void setIdVehicle(String idVehicle) {
-        String oldIdVehicle = this.idVehicle;
-        this.idVehicle = idVehicle;
-        propertyChangeSupport.firePropertyChange(PROP_IDVEHICLE, oldIdVehicle, idVehicle);
-    }    
-
-    public String getIdProfessor() {
-        return idProfessor;
+    public void setAlumne(Alumne alumne) {
+        Alumne oldAlumne = this.alumne;
+        this.alumne = alumne;
+        propertyChangeSupport.firePropertyChange(PROP_ALUMNE, oldAlumne, alumne);
+    }
+    
+    public Professor getProfessor() {
+        return professor;
     }
 
-    public void setIdProfessor(String idProfessor) {
-        String oldIdProfessor = this.idProfessor;
-        this.idProfessor = idProfessor;
-        propertyChangeSupport.firePropertyChange(PROP_IDPROFESSOR, oldIdProfessor, idProfessor);
-    }  
-
-    public String getIdAlumne() {
-        return idAlumne;
+    public void setProfessor(Professor professor) {
+        Professor oldProfessor = this.professor;
+        this.professor = professor;
+        propertyChangeSupport.firePropertyChange(PROP_PROFESSOR, oldProfessor, professor);
+    }
+    
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 
-    public void setIdAlumne(String idAlumne) {
-        String oldIdAlumne = this.idAlumne;
-        this.idAlumne = idAlumne;
-        propertyChangeSupport.firePropertyChange(PROP_IDALUMNE, oldIdAlumne, idAlumne);
+    public void setVehicle(Vehicle vehicle) {
+        Vehicle oldVehicle = this.vehicle;
+        this.vehicle = vehicle;
+        propertyChangeSupport.firePropertyChange(PROP_VEHICLE, oldVehicle, vehicle);
     }
-
-    private transient final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-
+    
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(listener);
     }
@@ -90,5 +90,4 @@ public class Practica {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
-
 }

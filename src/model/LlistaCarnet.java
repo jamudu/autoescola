@@ -12,22 +12,15 @@ import org.jdesktop.observablecollections.ObservableList;
  *
  * @author usu21
  */
-public class LlistaCarnet {
-    
+public class LlistaCarnet {    
     private ObservableList<Carnet> lista;
+    
+    public static final String PROP_LISTA = "lista";
+    private transient final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     public LlistaCarnet() {
         lista=ObservableCollections.observableList(new ArrayList<Carnet>());
     }
-
-    public void altaCarnet(Carnet c) {
-        lista.add(c);
-    }
-    
-    public void bajaCarnet(Carnet c) {
-        lista.remove(c);
-    }
-    public static final String PROP_LISTA = "lista";
 
     public ObservableList<Carnet> getLista() {
         return lista;
@@ -38,8 +31,14 @@ public class LlistaCarnet {
         this.lista = lista;
         propertyChangeSupport.firePropertyChange(PROP_LISTA, oldLista, lista);
     }
-
-    private transient final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+    
+    public void altaCarnet(Carnet c) {
+        lista.add(c);
+    }
+    
+    public void bajaCarnet(Carnet c) {
+        lista.remove(c);
+    }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(listener);
@@ -48,5 +47,4 @@ public class LlistaCarnet {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
-
 }
