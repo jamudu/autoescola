@@ -1,5 +1,4 @@
 //
-
 package vista;
 
 import static autoescola.Autoescola.alumneJDBC;
@@ -20,8 +19,9 @@ import model.LlistaAlumne;
  * @author jaume
  */
 public class LlistatAlumnes extends javax.swing.JDialog {
+
     private TableRowSorter<TableModel> modeloOrdenado;
-    
+
     private LlistaAlumne totsAlumnes;
 
     public LlistaAlumne getTotsAlumnes() {
@@ -41,14 +41,17 @@ public class LlistatAlumnes extends javax.swing.JDialog {
     public void setAlumneSelecc(Alumne alumneSelecc) {
         this.alumneSelecc = alumneSelecc;
     }
+    private String modo = "";
 
     /**
      * Creates new form LlistatAlumnes
      */
     public LlistatAlumnes(java.awt.Frame parent, boolean modal, String modo) {
         super(parent, modal);
+        this.modo = modo;
         alumneJDBC = new AlumneJDBC();
         totsAlumnes = alumneJDBC.seleccionarAllAlumnes();
+        alumneSelecc = new Alumne();
 
         initComponents();
 
@@ -68,10 +71,13 @@ public class LlistatAlumnes extends javax.swing.JDialog {
             jButton2.setVisible(false);
             jButton3.setVisible(false);
             this.setTitle("Llistat alumnes");
-        }else{
+        } else if (modo.equals("I")) {
+            jButton2.setVisible(false);
+        } else {
             this.setTitle("Gestio alumnes");
         }
         jLabel1.setText("Total:  " + alumneJDBC.contarAlumne());
+
     }
 
     /**
@@ -102,18 +108,23 @@ public class LlistatAlumnes extends javax.swing.JDialog {
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nif}"));
         columnBinding.setColumnName("Nif");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nom}"));
         columnBinding.setColumnName("Nom");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${cognoms}"));
         columnBinding.setColumnName("Cognoms");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dataVista}"));
         columnBinding.setColumnName("Data Vista");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numIntentsExamen}"));
         columnBinding.setColumnName("Num Intents Examen");
         columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${alumneSelecc}"), jTable1, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
         bindingGroup.addBinding(binding);
@@ -170,7 +181,7 @@ public class LlistatAlumnes extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,7 +208,7 @@ public class LlistatAlumnes extends javax.swing.JDialog {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -238,11 +249,17 @@ public class LlistatAlumnes extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if (modo.equals("M")) {
+            modo = "modificar";
+        }
+        if (modo.equals("I")) {
+            modo = "intents";
+        }
         if (jTable1.getSelectedRowCount() == 0) {
             JOptionPane.showMessageDialog(this, "Tens que seleccionar un alumne", "ERROR: Alumne no seleccionat", JOptionPane.ERROR_MESSAGE);
         } else {
-            Alumne copia =  (Alumne) alumneSelecc.clone();
-            DadesAlumne da = new DadesAlumne(null, true, alumneSelecc, "modificar");
+            Alumne copia = (Alumne) alumneSelecc.clone();
+            DadesAlumne da = new DadesAlumne(null, true, alumneSelecc, modo);
             da.setLocationRelativeTo(null);
             da.setVisible(true);
             if (da.cancelar) {

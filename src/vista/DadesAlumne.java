@@ -48,9 +48,16 @@ public class DadesAlumne extends javax.swing.JDialog {
             nifTxt.setFocusable(false);
             aceptarBtn.setEnabled(true);
             this.setTitle("Modificar alumne");
-        } else {
+        } else if (modo.equals("alta")){
             jSpinner1.setEnabled(false);
             this.setTitle("Alta alumne");
+        } else{
+            nifTxt.setEditable(false);
+            nomTxt.setEditable(false);
+            cognomsTxt.setEditable(false);
+            jXDatePicker1.setEditable(false);
+            jSpinner1.requestFocus();
+            aceptarBtn.setEnabled(true);
         }
     }
 
@@ -60,7 +67,7 @@ public class DadesAlumne extends javax.swing.JDialog {
         cognomsTxt.getMargin().right = 10;
         nifTxt.setHorizontalAlignment(JTextField.CENTER);
 
-        if (!modo.equals("modificar")) {
+        if (!modo.equals("modificar") && !modo.equals("intents")) {
             nifTxt.setText("");
             nomTxt.setText("");
             cognomsTxt.setText("");
@@ -150,7 +157,6 @@ public class DadesAlumne extends javax.swing.JDialog {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${nouAlumne.cognoms}"), cognomsTxt, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jXDatePicker1.setEditable(false);
         jXDatePicker1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jXDatePicker1FocusLost(evt);
@@ -365,10 +371,9 @@ public class DadesAlumne extends javax.swing.JDialog {
                     jLabel1.setText("darrer caracter = lletra");
                 }else {
                     nifTxt.setText(nifTxt.getText().substring(0,8)+c);
-//                    if (EntrdaDatos.calculaLetra(Integer.parseInt(nifTxt.getText().substring(0,8)))!=c){
-//                        jLabel1.setText("DNI incorrecte");
-//                        nifTxt.setText("");
-//                    }
+                    if (EntrdaDatos.calculaLetra(Integer.parseInt(nifTxt.getText().substring(0,8)))!=c){
+                        jLabel1.setText("DNI incorrecte");
+                    }
                 }
             } else if (c < '0' || c > '9') {
                 evt.consume();
@@ -384,10 +389,13 @@ public class DadesAlumne extends javax.swing.JDialog {
             nifTxt.requestFocusInWindow();
             nifTxt.selectAll();
             aceptarBtn.setEnabled(false);
-        } else if (!nifTxt.getText().equals("")) {
+        } else if (!nifTxt.getText().equals("") && nifTxt.getText().length()==9) {
             aceptarBtn.setEnabled(true);
         } else {
             aceptarBtn.setEnabled(false);
+            jLabel1.setText("DNI incorrecte");
+            nifTxt.requestFocusInWindow();
+            nifTxt.selectAll();
         }
     }//GEN-LAST:event_nifTxtFocusLost
 

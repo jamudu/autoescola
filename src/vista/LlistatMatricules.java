@@ -5,12 +5,14 @@ import static autoescola.Autoescola.matriculaJDBC;
 import dao.MatriculaJDBC;
 import java.awt.event.KeyEvent;
 import javax.swing.InputMap;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import model.LlistaMatricula;
+import model.Matricula;
 
 /**
  *
@@ -30,6 +32,16 @@ public class LlistatMatricules extends javax.swing.JDialog {
         this.totesMatricules = totesMatricules;
     }
 
+    private Matricula matriculaSelecc;
+
+    public Matricula getMatriculaSelecc() {
+        return matriculaSelecc;
+    }
+
+    public void setMatriculaSelecc(Matricula matriculaSelecc) {
+        this.matriculaSelecc = matriculaSelecc;
+    }
+
     
 
     /**
@@ -39,6 +51,7 @@ public class LlistatMatricules extends javax.swing.JDialog {
         super(parent, modal);
         matriculaJDBC = new MatriculaJDBC();
         totesMatricules = matriculaJDBC.totesMatricules();
+        matriculaSelecc = new Matricula();
 
         initComponents();
 
@@ -49,15 +62,15 @@ public class LlistatMatricules extends javax.swing.JDialog {
         DefaultTableCellRenderer modelocentrar = new DefaultTableCellRenderer();
         modelocentrar.setHorizontalAlignment(SwingConstants.CENTER);
 
-//        jTable1.getColumnModel().getColumn(0).setCellRenderer(modelocentrar);
-//        jTable1.getColumnModel().getColumn(2).setCellRenderer(modelocentrar);
+        jTable1.getColumnModel().getColumn(0).setCellRenderer(modelocentrar);
+        jTable1.getColumnModel().getColumn(2).setCellRenderer(modelocentrar);
 
         if (modo.equals("L")) {
             jButton2.setVisible(false);
             jButton3.setVisible(false);
-            this.setTitle("Llistat professors");
+            this.setTitle("Llistat matricules");
         } else {
-            this.setTitle("Gestio professors");
+            this.setTitle("Gestio matricules");
         }
         jLabel1.setText("Total:  " + matriculaJDBC.contarMatricules());
     }
@@ -85,31 +98,31 @@ public class LlistatMatricules extends javax.swing.JDialog {
         jTable1.setFocusable(false);
         jTable1.setOpaque(false);
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${totsProfessors.lista}");
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${totesMatricules.lista}");
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTable1);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nif}"));
-        columnBinding.setColumnName("Nif");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nom}"));
-        columnBinding.setColumnName("Nom");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${cognoms}"));
-        columnBinding.setColumnName("Cognoms");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dataVista}"));
-        columnBinding.setColumnName("Data Vista");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${tipusEnsenyament}"));
-        columnBinding.setColumnName("Tipus Ensenyament");
-        columnBinding.setColumnClass(String.class);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idMatricula}"));
+        columnBinding.setColumnName("Id Matricula");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${alumne}"));
+        columnBinding.setColumnName("Alumne");
+        columnBinding.setColumnClass(model.Alumne.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${carnet}"));
         columnBinding.setColumnName("Carnet");
         columnBinding.setColumnClass(model.Carnet.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${professorSelecc}"), jTable1, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
+        jTableBinding.bind();org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${matriculaSelecc}"), jTable1, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
         bindingGroup.addBinding(binding);
 
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(80);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(60);
+            jTable1.getColumnModel().getColumn(2).setMaxWidth(60);
+        }
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/salir60x60.jpg"))); // NOI18N
         jButton1.setToolTipText("salir");
@@ -161,7 +174,7 @@ public class LlistatMatricules extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,7 +201,7 @@ public class LlistatMatricules extends javax.swing.JDialog {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -220,21 +233,21 @@ public class LlistatMatricules extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2FocusGained
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-//        if (jTable1.getSelectedRowCount() == 0) {
-//            JOptionPane.showMessageDialog(this, "Tens que seleccionar una matricula", "ERROR: Matricula no seleccionada", JOptionPane.ERROR_MESSAGE);
-//        } else {
-//            int respuesta = JOptionPane.showConfirmDialog(this, "¿estas segur d'eliminar la matricula", "ATENCION", JOptionPane.YES_NO_OPTION);
-//            if (respuesta == JOptionPane.YES_OPTION) {
-//                if (matriculaJDBC.bajaProfessor(professorSelecc)) {
-//                    totsProfessors.bajaProfessor(professorSelecc);
-//                    jLabel1.setText("Total:  " + professorJDBC.contarProfessor());
-//                    JOptionPane.showMessageDialog(this, "     Professor donat de baixa");
-//                } else {
-//                    JOptionPane.showMessageDialog(this, "    No s'ha pogut donar de baixa el professor");
-//                }
-//                //dispose();
-//            }
-//        }
+        if (jTable1.getSelectedRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Tens que seleccionar una matricula", "ERROR: Matricula no seleccionada", JOptionPane.ERROR_MESSAGE);
+        } else {
+            int respuesta = JOptionPane.showConfirmDialog(this, "¿estas segur d'eliminar la matricula", "ATENCION", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.YES_OPTION) {
+                if (matriculaJDBC.baixaMatricula(matriculaSelecc)) {
+                    totesMatricules.bajaMatricula(matriculaSelecc);
+                    jLabel1.setText("Total:  " + matriculaJDBC.contarMatricules());
+                    JOptionPane.showMessageDialog(this, "     Matricula donada de baixa");
+                } else {
+                    JOptionPane.showMessageDialog(this, "    No s'ha pogut donar de baixa la matricula");
+                }
+                //dispose();
+            }
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jButton3FocusGained

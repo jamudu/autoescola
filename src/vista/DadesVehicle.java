@@ -117,7 +117,7 @@ public class DadesVehicle extends javax.swing.JDialog {
         codigoLbl = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         modelTxt = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<String>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         cancelarBtn = new javax.swing.JButton();
         aceptarBtn = new javax.swing.JButton();
@@ -172,7 +172,13 @@ public class DadesVehicle extends javax.swing.JDialog {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${nouVehicle.model}"), modelTxt, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        modelTxt.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                modelTxtFocusGained(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${listaCombo.lista}");
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jComboBox1);
@@ -377,6 +383,10 @@ public class DadesVehicle extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_aceptarBtnActionPerformed
+
+    private void modelTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_modelTxtFocusGained
+        modelTxt.selectAll();
+    }//GEN-LAST:event_modelTxtFocusGained
     private boolean comprobarCampos() {
         if (matriculaTxt.getText().isEmpty() || marcaTxt.getText().isEmpty() || modelTxt.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "No es poden deixar camps en blanc", "ERROR: Camps en blanc", JOptionPane.ERROR_MESSAGE);

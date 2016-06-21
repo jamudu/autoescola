@@ -9,7 +9,7 @@ import java.util.Objects;
  *
  * @author usu21
  */
-public class Vehicle implements Cloneable{    
+public class Vehicle implements Cloneable, Comparable{    
     private String matricula;
     private String marca;
     private String model;      
@@ -61,7 +61,7 @@ public class Vehicle implements Cloneable{
 
     @Override
     public String toString() {
-        return "Vehicle{" + "matricula=" + matricula + ", marca=" + marca + ", model=" + model + ", carnet=" + carnet + '}';
+        return marca + ", " + model;
     }
     
     public Object clone()  {
@@ -109,5 +109,11 @@ public class Vehicle implements Cloneable{
     
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+    
+    @Override
+    public int compareTo(Object o) {
+        Vehicle other = (Vehicle)o;
+        return model.compareTo(other.getModel());
     }
 }

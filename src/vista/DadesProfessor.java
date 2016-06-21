@@ -135,7 +135,7 @@ public class DadesProfessor extends javax.swing.JDialog {
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<String>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -234,6 +234,12 @@ public class DadesProfessor extends javax.swing.JDialog {
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${nouProfessor.cognoms}"), cognomsTxt, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+
+        cognomsTxt.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cognomsTxtFocusGained(evt);
+            }
+        });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Classe"));
 
@@ -436,7 +442,7 @@ public class DadesProfessor extends javax.swing.JDialog {
             nifTxt.requestFocusInWindow();
             nifTxt.selectAll();
             aceptarBtn.setEnabled(false);
-        } else if (!nifTxt.getText().equals("")) {
+        } else if (!nifTxt.getText().equals("") && nifTxt.getText().length()==9) {
             aceptarBtn.setEnabled(true);
         } else {
             aceptarBtn.setEnabled(false);
@@ -458,10 +464,9 @@ public class DadesProfessor extends javax.swing.JDialog {
                     jLabel1.setText("darrer caracter = lletra");
                 }else {
                     nifTxt.setText(nifTxt.getText().substring(0,8)+c);
-//                    if (EntrdaDatos.calculaLetra(Integer.parseInt(nifTxt.getText().substring(0,8)))!=c){
-//                        jLabel1.setText("DNI incorrecte");
-//                        nifTxt.setText("");
-//                    }
+                    if (EntrdaDatos.calculaLetra(Integer.parseInt(nifTxt.getText().substring(0,8)))!=c){
+                        jLabel1.setText("DNI incorrecte");
+                    }
                 }
             } else if (c < '0' || c > '9') {
                 evt.consume();
@@ -473,6 +478,10 @@ public class DadesProfessor extends javax.swing.JDialog {
     private void jXDatePicker1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jXDatePicker1FocusLost
         nouProfessor.setDataNaixement(jXDatePicker1.getDate());
     }//GEN-LAST:event_jXDatePicker1FocusLost
+
+    private void cognomsTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cognomsTxtFocusGained
+        cognomsTxt.selectAll();
+    }//GEN-LAST:event_cognomsTxtFocusGained
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">   
     // Variables declaration - do not modify//GEN-BEGIN:variables

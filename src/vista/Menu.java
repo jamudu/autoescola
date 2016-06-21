@@ -206,6 +206,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu9.add(jMenuItem3);
 
         jMenuItem4.setText("Matricules");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu9.add(jMenuItem4);
 
         jMenuItem5.setText("Carnets");
@@ -218,10 +223,15 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu9);
 
-        jMenu4.setText("Autoescola");
+        jMenu4.setText("Varis");
         jMenu4.setPreferredSize(new java.awt.Dimension(75, 19));
 
         jMenuItem12.setText("Actualitzar intents");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem12);
 
         jMenuItem18.setText("Practiques");
@@ -331,6 +341,18 @@ public class Menu extends javax.swing.JFrame {
         lm.setLocationRelativeTo(this);
         lm.setVisible(true);
     }//GEN-LAST:event_jMenuItem15ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        LlistatMatricules lm = new LlistatMatricules(this, true, "L");
+        lm.setLocationRelativeTo(this);
+        lm.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        LlistatAlumnes la = new LlistatAlumnes(this, true, "I");
+        la.setLocationRelativeTo(this);
+        la.setVisible(true);
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
     // <editor-fold defaultstate="collapsed" desc="Generated Code">  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;

@@ -9,7 +9,7 @@ import java.beans.PropertyChangeSupport;
  *
  * @author usu21
  */
-public class Professor extends Persona implements Cloneable{
+public class Professor extends Persona implements Cloneable, Comparable{
     
     private String tipusEnsenyament;    
     private Carnet carnet;
@@ -64,5 +64,9 @@ public class Professor extends Persona implements Cloneable{
         super.removePropertyChangeListener(listener);
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
-
+    @Override
+    public int compareTo(Object o) {
+        Professor other = (Professor)o;
+        return this.getCognoms().compareTo(other.getCognoms());
+    }
 }

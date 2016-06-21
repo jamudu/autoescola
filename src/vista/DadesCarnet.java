@@ -167,6 +167,9 @@ public class DadesCarnet extends javax.swing.JDialog {
         bindingGroup.addBinding(binding);
 
         carnetTxt.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                carnetTxtFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 carnetTxtFocusLost(evt);
             }
@@ -391,6 +394,10 @@ public class DadesCarnet extends javax.swing.JDialog {
     private void carnetTxtFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_carnetTxtFocusLost
         nouCarnet.setTipus(nouCarnet.getTipus().toUpperCase());
     }//GEN-LAST:event_carnetTxtFocusLost
+
+    private void carnetTxtFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_carnetTxtFocusGained
+        carnetTxt.selectAll();
+    }//GEN-LAST:event_carnetTxtFocusGained
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aceptarBtn;
