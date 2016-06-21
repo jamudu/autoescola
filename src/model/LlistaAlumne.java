@@ -12,22 +12,15 @@ import org.jdesktop.observablecollections.ObservableList;
  *
  * @author usu21
  */
-public class LlistaAlumne{
-
+public class LlistaAlumne {
     private ObservableList<Alumne> lista;
+    
+    public static final String PROP_LISTA = "lista";
+    private transient final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     public LlistaAlumne() {
         lista=ObservableCollections.observableList(new ArrayList<Alumne>());
     }
-
-    public void altaAlumne(Alumne a) {
-        lista.add(a);
-    }
-    
-    public void bajaAlumne(Alumne a) {
-        lista.remove(a);
-    }
-    public static final String PROP_LISTA = "lista";
 
     public ObservableList<Alumne> getLista() {
         return lista;
@@ -39,8 +32,6 @@ public class LlistaAlumne{
         propertyChangeSupport.firePropertyChange(PROP_LISTA, oldLista, lista);
     }
 
-    private transient final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(listener);
     }
@@ -48,5 +39,12 @@ public class LlistaAlumne{
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
-
+    
+    public void altaAlumne(Alumne a) {
+        lista.add(a);
+    }
+    
+    public void bajaAlumne(Alumne a) {
+        lista.remove(a);
+    }
 }

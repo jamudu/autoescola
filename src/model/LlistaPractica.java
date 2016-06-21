@@ -15,6 +15,8 @@ import org.jdesktop.observablecollections.ObservableList;
 public class LlistaPractica {
     
     private ObservableList<Practica> lista;
+    public static final String PROP_LISTA = "lista";
+    private transient final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     public LlistaPractica() {
         lista=ObservableCollections.observableList(new ArrayList<Practica>());
@@ -27,8 +29,7 @@ public class LlistaPractica {
     public void bajaPractica(Practica p) {
         lista.remove(p);
     }
-    public static final String PROP_LISTA = "lista";
-
+    
     public ObservableList<Practica> getLista() {
         return lista;
     }
@@ -39,8 +40,6 @@ public class LlistaPractica {
         propertyChangeSupport.firePropertyChange(PROP_LISTA, oldLista, lista);
     }
 
-    private transient final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(listener);
     }
@@ -48,5 +47,4 @@ public class LlistaPractica {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
-
 }
