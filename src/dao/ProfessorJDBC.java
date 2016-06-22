@@ -20,6 +20,62 @@ import model.Professor;
 public class ProfessorJDBC {
 
     private Connection conexion;
+    
+    public LlistaProfessor professorsCarnet(int id_carn) {
+        LlistaProfessor lp = new LlistaProfessor();
+        conectar();
+        if (conexion != null) {
+            try {
+                conexion.setAutoCommit(false);
+                String query = "select * from professor INNER join persona on persona.nif = professor.fk_persona "
+                        + "INNER join carnet on fk_carnet ="+ id_carn+";";
+                Statement st = conexion.createStatement();
+                ResultSet rs = st.executeQuery(query);
+                
+                while (rs.next()) {
+                    Professor pr = new Professor();
+                    pr.setNif(rs.getString("nif"));
+                    pr.setNom(rs.getString("nom"));
+                    pr.setCognoms(rs.getString("cognoms"));
+                    pr.setDataNaixement(rs.getDate("dataNaixement"));
+                    pr.setTipusEnsenyament(rs.getString("ensenyament"));
+                    Carnet aux = new Carnet();
+                    aux.setTipus(rs.getString("tipus"));
+                    aux.setDescripcio(rs.getString("descripcio"));
+                    aux.setPreuHora(rs.getDouble("preuHora"));
+                    aux.setIdCarnet(rs.getInt("fk_carnet"));
+                    pr.setCarnet(aux);
+                    lp.altaProfessor(pr);
+                }
+
+                rs.close();
+                st.close();
+
+                return lp;
+
+            } catch (SQLException ex) {
+//                JOptionPane.showMessageDialog(null, "Error",
+//                        "Error!!!", JOptionPane.ERROR_MESSAGE);
+//                System.out.println(ex.getMessage());
+                try {
+                    conexion.rollback();
+                } catch (SQLException e) {
+//                    JOptionPane.showMessageDialog(null, "Error en desfer la transacció.",
+//                            "Error!!!", JOptionPane.ERROR_MESSAGE);
+                }
+                return lp;
+            } finally {
+                try {
+                    conexion.setAutoCommit(true);
+                } catch (SQLException ex) {
+//                    JOptionPane.showMessageDialog(null, "Error en desconnectar.",
+//                            "Error!!!", JOptionPane.ERROR_MESSAGE);
+                }
+                desconectar();
+            }
+        }
+        return lp;
+    }
 
     //funcio eliminar professor
     public boolean bajaProfessor(Professor p) {

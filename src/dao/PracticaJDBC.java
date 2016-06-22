@@ -3,6 +3,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +12,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 import model.LlistaPractica;
 import model.Alumne;
+import model.Carnet;
 import model.Practica;
 import model.Professor;
 import model.Vehicle;
@@ -133,6 +135,76 @@ public class PracticaJDBC {
             }        
         }
         return cont;
+    }
+    
+    //funcion buscar carnet alumne
+    public Carnet buscaCarnet(String a){
+        int cont=0;
+        conectar();
+        if (conexion != null){
+            try {
+                int id_car=0;
+                String query = "select * from matricula where fk_alumne='" + a+"'";
+                Statement st=conexion.createStatement();
+                ResultSet rs=st.executeQuery(query);
+                //si ResultSet tiene algo (si tiene next)
+                if (rs.next()){
+                id_car=(rs.getInt("fk_carnet"));
+                }
+                query = "select * from carnet where id="+id_car+";";
+                st=conexion.createStatement();
+                rs=st.executeQuery(query);
+                
+                Carnet ca = new Carnet();
+                if (rs.next()){
+                    ca.setIdCarnet(rs.getInt("id"));
+                    ca.setTipus(rs.getString("tipus"));
+                }
+                rs.close();
+                st.close(); 
+                return ca;
+            } catch (SQLException ex) {
+                //Logger.getLogger(PracticaJDBC.class.getName()).log(Level.SEVERE, null, ex);
+                //throw new MyException("Error al actualizar dades: "+ ex.getLocalizedMessage());
+            }finally{
+                desconectar();
+            }        
+        }
+        return null;
+    }
+    
+    //funcion comprobar dates
+    public boolean comprobarDat(Date d, int h){
+        conectar();
+        if (conexion != null){
+//            try {
+//                String query = "select * from matricula where fk_alumne='" + a+"'";
+//                Statement st=conexion.createStatement();
+//                ResultSet rs=st.executeQuery(query);
+//                //si ResultSet tiene algo (si tiene next)
+//                if (rs.next()){
+//                id_car=(rs.getInt("fk_carnet"));
+//                }
+//                query = "select * from carnet where id="+id_car+";";
+//                st=conexion.createStatement();
+//                rs=st.executeQuery(query);
+//                
+//                Carnet ca = new Carnet();
+//                if (rs.next()){
+//                    ca.setIdCarnet(rs.getInt("id"));
+//                    ca.setTipus(rs.getString("tipus"));
+//                }
+//                rs.close();
+//                st.close(); 
+//                return ca;
+//            } catch (SQLException ex) {
+//                //Logger.getLogger(PracticaJDBC.class.getName()).log(Level.SEVERE, null, ex);
+//                //throw new MyException("Error al actualizar dades: "+ ex.getLocalizedMessage());
+//            }finally{
+//                desconectar();
+//            }        
+        }
+        return false;
     }
     
     public boolean insertarPractica(Practica p) {
