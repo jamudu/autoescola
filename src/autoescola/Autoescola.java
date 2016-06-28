@@ -4,6 +4,7 @@ package autoescola;
 
 import dao.AlumneJDBC;
 import dao.CarnetJDBC;
+import dao.FacturaJDBC;
 import dao.MatriculaJDBC;
 import dao.PracticaJDBC;
 import dao.ProfessorJDBC;
@@ -22,6 +23,7 @@ public class Autoescola {
     public static CarnetJDBC carnetJDBC;
     public static MatriculaJDBC matriculaJDBC;
     public static PracticaJDBC practicaJDBC;
+    public static FacturaJDBC facturaJDBC;
 
     /**
      * @param args the command line arguments

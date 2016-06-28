@@ -39,8 +39,14 @@ public class Matricula {
         propertyChangeSupport.firePropertyChange(PROP_ALUMNE, oldAlumne, alumne);
     }
 
+    @Override
+    public String toString() {
+        return alumne + "   -   " + carnet;
+    }
+
     public Matricula() {
-        
+        alumne=new Alumne();
+        carnet=new Carnet();
     }
 
     public static final String PROP_IDMATRICULA = "idMatricula";

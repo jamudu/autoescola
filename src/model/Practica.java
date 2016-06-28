@@ -4,6 +4,7 @@ package model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -11,13 +12,25 @@ import java.util.Date;
  * @author usu21
  */
 public class Practica {
-//    private String idVehicle;
     
+    private int codi;
     private Alumne alumne;
     private Professor professor;
     private Vehicle vehicle;
     private int horaInici;
     private Date diaPractica;
+    
+    public static final String PROP_CODI = "codi";
+
+    public int getCodi() {
+        return codi;
+    }
+
+    public void setCodi(int codi) {
+        int oldCodi = this.codi;
+        this.codi = codi;
+        propertyChangeSupport.firePropertyChange(PROP_CODI, oldCodi, codi);
+    }
     
     public Practica() {
         alumne = new Alumne();
@@ -42,6 +55,11 @@ public class Practica {
         this.horaInici = horaInici;
         propertyChangeSupport.firePropertyChange(PROP_HORAINICI, oldHoraInici, horaInici);
     }    
+    
+    public String getDataVista() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(diaPractica);
+    }
 
     public Date getData() {
         return diaPractica;

@@ -64,7 +64,7 @@ public class Vehicle implements Cloneable, Comparable{
         if (model.equals("-- Selecciona vehicle --")) {
             return model;
         }
-        return marca + ", " + model;
+        return marca + " " + model;
     }
     
     public Object clone()  {

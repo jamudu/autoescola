@@ -41,6 +41,42 @@ public class MatriculaJDBC {
         }
     }
     
+    //funcion buscar carnet alumne
+    public Carnet buscaCarnet(String a){
+        conectar();
+        if (conexion != null){
+            try {
+                int id_car=0;
+                String query = "select * from matricula where fk_alumne='" + a+"'";
+                Statement st=conexion.createStatement();
+                ResultSet rs=st.executeQuery(query);
+                //si ResultSet tiene algo (si tiene next)
+                if (rs.next()){
+                id_car=(rs.getInt("fk_carnet"));
+                }
+                query = "select * from carnet where id="+id_car+";";
+                st=conexion.createStatement();
+                rs=st.executeQuery(query);
+                
+                Carnet ca = new Carnet();
+                if (rs.next()){
+                    ca.setIdCarnet(rs.getInt("id"));
+                    ca.setTipus(rs.getString("tipus"));
+                    ca.setPreuHora(rs.getDouble("preuHora"));
+                }
+                rs.close();
+                st.close(); 
+                return ca;
+            } catch (SQLException ex) {
+                //Logger.getLogger(PracticaJDBC.class.getName()).log(Level.SEVERE, null, ex);
+                //throw new MyException("Error al actualizar dades: "+ ex.getLocalizedMessage());
+            }finally{
+                desconectar();
+            }        
+        }
+        return null;
+    }
+    
     //funcio eliminar matricula
     public boolean baixaMatricula(Matricula m){
         boolean ok=false;
@@ -131,6 +167,32 @@ public class MatriculaJDBC {
             }        
         }
         return cont;
+    }
+    
+    //funcion buscar matricula de client
+    public Matricula buscarMatriculaAlumne(Alumne a){
+        conectar();
+        if (conexion != null){
+            try {
+                String query = "select * from matricula where fk_alumne='"+a.getNif()+"';";
+                Statement st=conexion.createStatement();
+                ResultSet rs=st.executeQuery(query);
+                //si ResultSet tiene algo (si tiene next)
+                Matricula m=new Matricula();
+                if (rs.next()){                    
+                    m.setIdMatricula(rs.getInt("id"));                    
+                }
+                rs.close();
+                st.close();   
+                return m;
+            } catch (SQLException ex) {
+                //Logger.getLogger(VehicleJDBC.class.getName()).log(Level.SEVERE, null, ex);
+                //throw new MyException("Error al actualizar dades: "+ ex.getLocalizedMessage());
+            }finally{
+                desconectar();
+            }        
+        }
+        return null;
     }
     
     public boolean insertarMatricula(Matricula m) {

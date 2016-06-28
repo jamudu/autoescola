@@ -55,15 +55,21 @@ public class Menu extends javax.swing.JFrame {
         jMenu8 = new javax.swing.JMenu();
         jMenuItem16 = new javax.swing.JMenuItem();
         jMenuItem17 = new javax.swing.JMenuItem();
+        jMenuItem20 = new javax.swing.JMenuItem();
+        jMenuItem22 = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
+        jMenuItem21 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem12 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem18 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
         jMenuItem19 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -177,6 +183,22 @@ public class Menu extends javax.swing.JFrame {
 
         jMenu2.add(jMenu8);
 
+        jMenuItem20.setText("Practica");
+        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem20ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem20);
+
+        jMenuItem22.setText("Factura");
+        jMenuItem22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem22ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem22);
+
         jMenuBar1.add(jMenu2);
 
         jMenu9.setText("Llistats");
@@ -222,9 +244,25 @@ public class Menu extends javax.swing.JFrame {
         });
         jMenu9.add(jMenuItem5);
 
+        jMenuItem11.setText("Practiques");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu9.add(jMenuItem11);
+
+        jMenuItem21.setText("Facturas");
+        jMenuItem21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem21ActionPerformed(evt);
+            }
+        });
+        jMenu9.add(jMenuItem21);
+
         jMenuBar1.add(jMenu9);
 
-        jMenu4.setText("Varis");
+        jMenu4.setText("Practica");
         jMenu4.setPreferredSize(new java.awt.Dimension(75, 19));
 
         jMenuItem12.setText("Actualitzar intents");
@@ -234,6 +272,7 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         jMenu4.add(jMenuItem12);
+        jMenu4.add(jSeparator1);
 
         jMenuItem18.setText("Practiques");
         jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
@@ -243,10 +282,20 @@ public class Menu extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem18);
 
-        jMenuItem19.setText("Facturacio");
-        jMenu4.add(jMenuItem19);
-
         jMenuBar1.add(jMenu4);
+
+        jMenu3.setText("Factura");
+        jMenu3.setPreferredSize(new java.awt.Dimension(75, 19));
+
+        jMenuItem19.setText("Facturacio");
+        jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem19ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem19);
+
+        jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
 
@@ -361,14 +410,45 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
-        DadesPractica dp = new DadesPractica(this, true, new Practica(), "alta");
+        DadesPracticaAlumne dp = new DadesPracticaAlumne(this, true, new Practica(), "alta");
         dp.setLocationRelativeTo(this);
         dp.setVisible(true);
     }//GEN-LAST:event_jMenuItem18ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        LlistatPractiques lp = new LlistatPractiques(this, true, "L");
+        lp.setLocationRelativeTo(this);
+        lp.setVisible(true);
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
+        DadesPracticaAlumne dp = new DadesPracticaAlumne(this, true, new Practica(), "factura");
+        dp.setLocationRelativeTo(this);
+        dp.setVisible(true);
+    }//GEN-LAST:event_jMenuItem19ActionPerformed
+
+    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
+        LlistatPractiques lp = new LlistatPractiques(this, true, "M");
+        lp.setLocationRelativeTo(this);
+        lp.setVisible(true);
+    }//GEN-LAST:event_jMenuItem20ActionPerformed
+
+    private void jMenuItem21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem21ActionPerformed
+        LlistatFactures lf = new LlistatFactures(this, true, "L");
+        lf.setLocationRelativeTo(this);
+        lf.setVisible(true);
+    }//GEN-LAST:event_jMenuItem21ActionPerformed
+
+    private void jMenuItem22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem22ActionPerformed
+        LlistatFactures lf = new LlistatFactures(this, true, "M");
+        lf.setLocationRelativeTo(this);
+        lf.setVisible(true);
+    }//GEN-LAST:event_jMenuItem22ActionPerformed
     // <editor-fold defaultstate="collapsed" desc="Generated Code">  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
@@ -378,6 +458,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
@@ -387,6 +468,9 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem20;
+    private javax.swing.JMenuItem jMenuItem21;
+    private javax.swing.JMenuItem jMenuItem22;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
@@ -394,6 +478,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
     // </editor-fold>  
 }

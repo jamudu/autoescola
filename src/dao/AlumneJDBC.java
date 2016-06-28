@@ -19,6 +19,7 @@ import model.LlistaAlumne;
 public class AlumneJDBC {
     private Connection conexion;
     
+    
     private void connectar() {
         try {
             String url = "jdbc:mysql://localhost:3306/autoescola";

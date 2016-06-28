@@ -27,8 +27,8 @@ public class ProfessorJDBC {
         if (conexion != null) {
             try {
                 conexion.setAutoCommit(false);
-                String query = "select * from professor INNER join persona on persona.nif = professor.fk_persona "
-                        + "INNER join carnet on fk_carnet ="+ id_carn+";";
+                String query = "select * from professor INNER join persona inner join carnet "
+                        + "on persona.nif = professor.fk_persona and fk_carnet ="+ id_carn+" and ensenyament='P' group by persona.nif;";
                 Statement st = conexion.createStatement();
                 ResultSet rs = st.executeQuery(query);
                 

@@ -3,6 +3,7 @@ package model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -25,7 +26,10 @@ public class Factura {
         data = new Date();
         matricula = new Matricula();
     }
-    
+    public String getDataVista() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        return sdf.format(data);
+    }
     public int getCodi() {
         return codi;
     }

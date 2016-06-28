@@ -18,6 +18,60 @@ import model.Vehicle;
  */
 public class VehicleJDBC {
  private Connection conexion;
+ 
+    public ListaVehicles vehiclesCarnet(int id_carn) {
+        ListaVehicles lv = new ListaVehicles();
+        conectar();
+        if (conexion != null) {
+            try {
+                conexion.setAutoCommit(false);
+                String query = "select * from vehicle INNER join carnet on fk_carnet ="+ id_carn+" group by model;";
+                Statement st = conexion.createStatement();
+                ResultSet rs = st.executeQuery(query);
+                
+                while (rs.next()) {
+                    Vehicle ve = new Vehicle();
+                    ve.setMatricula(rs.getString("matricula"));
+                    ve.setMarca(rs.getString("marca"));
+                    ve.setModel(rs.getString("model"));
+                    
+                    Carnet aux = new Carnet();
+                    aux.setTipus(rs.getString("tipus"));
+                    aux.setDescripcio(rs.getString("descripcio"));
+                    aux.setPreuHora(rs.getDouble("preuHora"));
+                    aux.setIdCarnet(rs.getInt("fk_carnet"));
+                    ve.setCarnet(aux);
+                    
+                    lv.altaVehicle(ve);
+                }
+                rs.close();
+                st.close();
+
+                return lv;
+
+            } catch (SQLException ex) {
+//                JOptionPane.showMessageDialog(null, "Error",
+//                        "Error!!!", JOptionPane.ERROR_MESSAGE);
+//                System.out.println(ex.getMessage());
+                try {
+                    conexion.rollback();
+                } catch (SQLException e) {
+//                    JOptionPane.showMessageDialog(null, "Error en desfer la transacció.",
+//                            "Error!!!", JOptionPane.ERROR_MESSAGE);
+                }
+                return lv;
+            } finally {
+                try {
+                    conexion.setAutoCommit(true);
+                } catch (SQLException ex) {
+//                    JOptionPane.showMessageDialog(null, "Error en desconnectar.",
+//                            "Error!!!", JOptionPane.ERROR_MESSAGE);
+                }
+                desconectar();
+            }
+        }
+        return lv;
+    }
 
     //funcio eliminar vehicle
     public boolean baixaVehicle(Vehicle v){
@@ -139,8 +193,8 @@ public class VehicleJDBC {
         if (conexion != null){
             try {
                 String query = "UPDATE vehicle SET matricula='"+ v.getMatricula()+ 
-                        "',  marca='"+v.getMarca()+ "', model='"+v.getModel()+
-                        "' WHERE matricula='"+ v.getMatricula()+"';";
+                        "',  marca='"+v.getMarca()+ "', model='"+v.getModel()+ "', fk_carnet="+v.getCarnet().getIdCarnet()+
+                        " WHERE matricula='"+ v.getMatricula()+"';";
                 Statement st=conexion.createStatement();
                 st.executeUpdate(query);
                                 
