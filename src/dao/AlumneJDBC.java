@@ -178,7 +178,7 @@ public class AlumneJDBC {
                 System.out.println(ex.getMessage());
                 //Logger.getLogger(AlumneJDBC.class.getName()).log(Level.SEVERE, null, ex);
                 //throw new MyException("Error al actualizar dades: "+ ex.getLocalizedMessage());
-                JOptionPane.showMessageDialog(null, "Error en donar de l'alumne.",
+                JOptionPane.showMessageDialog(null, "Error en donar de baixa l'alumne.",
                         "Error!!!", JOptionPane.ERROR_MESSAGE);
                 try {
                     conexion.rollback();
