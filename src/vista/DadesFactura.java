@@ -93,7 +93,7 @@ public class DadesFactura extends javax.swing.JDialog {
         novaFra = new Factura();
         carnet = c;
         alumne = a;
-        matricula=m;
+        matricula = m;
         facturaJDBC = new FacturaJDBC();
         practicaJDBC = new PracticaJDBC();
 
@@ -232,11 +232,6 @@ public class DadesFactura extends javax.swing.JDialog {
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${novaFra.codi}"), jTextField2, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jTextField2.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextField2FocusLost(evt);
-            }
-        });
         jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField2KeyTyped(evt);
@@ -507,17 +502,6 @@ public class DadesFactura extends javax.swing.JDialog {
     }//GEN-LAST:event_aceptarBtnFocusGained
 
     private void aceptarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarBtnActionPerformed
-        novaFra.setData(jXDatePicker1.getDate());
-        if (facturaJDBC.insertarFra(novaFra, matricula.getIdMatricula())) {
-            JOptionPane.showMessageDialog(this, "Factura donada d'alta");
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "No s'ha pogut donar d'alta la factura", "ERROR. Factura no donada d'alta", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }//GEN-LAST:event_aceptarBtnActionPerformed
-
-    private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusLost
         jLabel11.setText("");
         if (facturaJDBC.exisFactura(novaFra.getCodi())) {
             JOptionPane.showMessageDialog(this, "Ya existeix una factura amb aquest numero", "ERROR: numero duplicat", JOptionPane.ERROR_MESSAGE);
@@ -526,8 +510,16 @@ public class DadesFactura extends javax.swing.JDialog {
             aceptarBtn.setEnabled(false);
         } else if (!jTextField2.getText().equals("")) {
             aceptarBtn.setEnabled(true);
+
+            novaFra.setData(jXDatePicker1.getDate());
+            if (facturaJDBC.insertarFra(novaFra, matricula.getIdMatricula())) {
+                JOptionPane.showMessageDialog(this, "Factura donada d'alta");
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "No s'ha pogut donar d'alta la factura", "ERROR. Factura no donada d'alta", JOptionPane.ERROR_MESSAGE);
+            }
         }
-    }//GEN-LAST:event_jTextField2FocusLost
+    }//GEN-LAST:event_aceptarBtnActionPerformed
 
     private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
         jLabel11.setText(null);
